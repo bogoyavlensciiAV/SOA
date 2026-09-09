@@ -30,13 +30,11 @@ paths:
 
         Поддерживаются фильтрация, сортировка и постраничный вывод результатов.
       operationId: getStudyGroups
-
       parameters:
         - $ref: '#/components/parameters/Filter'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Page'
         - $ref: '#/components/parameters/PageSize'
-
       responses:
         '200':
           description: Массив найденных учебных групп
@@ -46,12 +44,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StudyGroup'
-
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
     post:
       tags:
@@ -60,33 +58,30 @@ paths:
       description: |
         Создаёт новый объект StudyGroup.
 
-        Поля id и creationDate генерируются сервером автоматически,
+        Поля id и creation-date генерируются сервером автоматически,
         поэтому клиент не должен передавать их в запросе.
 
         Данные должны передаваться в формате JSON.
       operationId: createStudyGroup
-
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/StudyGroupCreate'
-
       responses:
         '201':
-          description: |
-            Created
+          description: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
-
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /study-groups/{id}:
     get:
@@ -95,27 +90,23 @@ paths:
       summary: Получить учебную группу по ID
       description: Возвращает объект StudyGroup с указанным идентификатором.
       operationId: getStudyGroupById
-
       parameters:
         - $ref: '#/components/parameters/StudyGroupId'
-
       responses:
         '200':
-          description: |
-            OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
-
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '404':
           $ref: '#/components/responses/NotFound'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
     put:
       tags:
@@ -125,37 +116,32 @@ paths:
         Полностью обновляет существующий объект StudyGroup.
 
         ID объекта передаётся в URL.
-        Поля id и creationDate генерируются сервером и не должны
+        Поля id и creation-date генерируются сервером и не должны
         изменяться клиентом.
       operationId: updateStudyGroup
-
       parameters:
         - $ref: '#/components/parameters/StudyGroupId'
-
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/StudyGroupUpdate'
-
       responses:
         '200':
-          description: |
-            OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
-
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '404':
           $ref: '#/components/responses/NotFound'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
     delete:
       tags:
@@ -163,81 +149,73 @@ paths:
       summary: Удалить учебную группу
       description: Удаляет учебную группу с указанным ID.
       operationId: deleteStudyGroup
-
       parameters:
         - $ref: '#/components/parameters/StudyGroupId'
-
       responses:
         '204':
-          description: |
-            No Content
-
+          description: No Content
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '404':
           $ref: '#/components/responses/NotFound'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /study-groups/expelled-students/sum:
     get:
       tags:
         - Study Groups Statistics
-      summary: Рассчитать сумму expelledStudents
+      summary: Рассчитать сумму expelled-students
       description: |
-        Возвращает сумму значений поля expelledStudents
+        Возвращает сумму значений поля expelled-students
         для всех объектов коллекции.
       operationId: sumExpelledStudents
-
       responses:
         '200':
-          description: |
-            OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExpelledStudentsSum'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
-  /study-groups/students-count/{studentsCount}/count:
+  /study-groups/students-count/{students-count}/count:
     get:
       tags:
         - Study Groups Statistics
-      summary: Получить количество групп с заданным studentsCount
+      summary: Получить количество групп с заданным students-count
       description: |
         Возвращает количество объектов StudyGroup,
-        значение поля studentsCount которых равно заданному.
+        значение поля students-count которых равно заданному.
       operationId: countByStudentsCount
-
       parameters:
-        - name: studentsCount
+        - name: students-count
           in: path
           required: true
-          description: Значение studentsCount для поиска.
+          description: Значение students-count для поиска.
           schema:
             type: integer
             format: int64
             minimum: 1
           example: 100
-
       responses:
         '200':
-          description: |
-            OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CountResult'
-
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /study-groups/name/starts-with/{prefix}:
     get:
@@ -248,7 +226,6 @@ paths:
         Возвращает массив объектов StudyGroup,
         значение поля name которых начинается с указанной подстроки.
       operationId: findByNamePrefix
-
       parameters:
         - name: prefix
           in: path
@@ -258,23 +235,21 @@ paths:
             type: string
             minLength: 1
           example: Math
-
       responses:
         '200':
-          description: |
-            OK
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/StudyGroup'
-
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /isu/group/{from-group}/move/{to-group}:
     post:
@@ -288,7 +263,6 @@ paths:
         Операция выполняется вторым веб-сервисом /isu,
         который взаимодействует с API первого сервиса.
       operationId: moveStudents
-
       parameters:
         - name: from-group
           in: path
@@ -299,7 +273,6 @@ paths:
             format: int32
             minimum: 1
           example: 3417
-
         - name: to-group
           in: path
           required: true
@@ -309,19 +282,13 @@ paths:
             format: int32
             minimum: 1
           example: 3418
-
-
       responses:
         '204':
-          description: |
-            No Content
-
+          description: No Content
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '404':
           $ref: '#/components/responses/NotFound'
-
         '409':
           description: Конфликт при выполнении операции
           content:
@@ -330,11 +297,12 @@ paths:
                 $ref: '#/components/schemas/Error'
               example:
                 errors:
-                  - code: Error
-                    message: "Description of error"
-
+                  - code: Conflict
+                    message: "Невозможно переместить студентов из группы в саму себя."
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /isu/group/{group-id}/change-edu-form/{new-form}:
     post:
@@ -342,13 +310,12 @@ paths:
         - ISU
       summary: Изменить форму обучения группы
       description: |
-        Изменяет значение formOfEducation указанной учебной группы
+        Изменяет значение form-of-education указанной учебной группы
         на значение, переданное в URL.
 
         Операция выполняется вторым веб-сервисом /isu,
         который взаимодействует с API первого сервиса.
       operationId: changeEducationForm
-
       parameters:
         - name: group-id
           in: path
@@ -359,14 +326,12 @@ paths:
             format: int32
             minimum: 1
           example: 3417
-
         - name: new-form
           in: path
           required: true
           description: Новая форма обучения.
           schema:
             $ref: '#/components/schemas/FormOfEducation'
-
       responses:
         '200':
           description: Форма обучения успешно изменена
@@ -374,15 +339,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
-
         '400':
           $ref: '#/components/responses/BadRequest'
-
         '404':
           $ref: '#/components/responses/NotFound'
-
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
 components:
 
@@ -394,10 +358,10 @@ components:
         - id
         - name
         - coordinates
-        - creationDate
-        - studentsCount
-        - expelledStudents
-        - formOfEducation
+        - creation-date
+        - students-count
+        - expelled-students
+        - form-of-education
       properties:
         id:
           type: integer
@@ -408,17 +372,14 @@ components:
             Уникальный идентификатор.
             Генерируется автоматически сервером.
           example: 42
-
         name:
           type: string
           minLength: 1
           description: Название учебной группы.
           example: P3417
-
         coordinates:
           $ref: '#/components/schemas/Coordinates'
-
-        creationDate:
+        creation-date:
           type: string
           format: date
           readOnly: true
@@ -426,31 +387,26 @@ components:
             Дата создания объекта.
             Генерируется автоматически сервером.
           example: 2026-09-08
-
-        studentsCount:
+        students-count:
           type: integer
           format: int64
           minimum: 1
           description: Количество студентов.
           example: 100
-
-        expelledStudents:
+        expelled-students:
           type: integer
           format: int64
           minimum: 1
           description: Количество отчисленных студентов.
           example: 5
-
-        formOfEducation:
+        form-of-education:
           $ref: '#/components/schemas/FormOfEducation'
-
-        semesterEnum:
+        semester-enum:
           allOf:
             - $ref: '#/components/schemas/Semester'
           nullable: true
           description: Семестр обучения.
-
-        groupAdmin:
+        group-admin:
           allOf:
             - $ref: '#/components/schemas/Person'
           nullable: true
@@ -461,39 +417,33 @@ components:
       required:
         - name
         - coordinates
-        - studentsCount
-        - expelledStudents
-        - formOfEducation
+        - students-count
+        - expelled-students
+        - form-of-education
       properties:
         name:
           type: string
           minLength: 1
           example: Mathematics Group
-
         coordinates:
           $ref: '#/components/schemas/Coordinates'
-
-        studentsCount:
+        students-count:
           type: integer
           format: int64
           minimum: 1
           example: 100
-
-        expelledStudents:
+        expelled-students:
           type: integer
           format: int64
           minimum: 1
           example: 5
-
-        formOfEducation:
+        form-of-education:
           $ref: '#/components/schemas/FormOfEducation'
-
-        semesterEnum:
+        semester-enum:
           allOf:
             - $ref: '#/components/schemas/Semester'
           nullable: true
-
-        groupAdmin:
+        group-admin:
           allOf:
             - $ref: '#/components/schemas/Person'
           nullable: true
@@ -503,39 +453,33 @@ components:
       required:
         - name
         - coordinates
-        - studentsCount
-        - expelledStudents
-        - formOfEducation
+        - students-count
+        - expelled-students
+        - form-of-education
       properties:
         name:
           type: string
           minLength: 1
           example: Updated Mathematics Group
-
         coordinates:
           $ref: '#/components/schemas/Coordinates'
-
-        studentsCount:
+        students-count:
           type: integer
           format: int64
           minimum: 1
           example: 120
-
-        expelledStudents:
+        expelled-students:
           type: integer
           format: int64
           minimum: 1
           example: 10
-
-        formOfEducation:
+        form-of-education:
           $ref: '#/components/schemas/FormOfEducation'
-
-        semesterEnum:
+        semester-enum:
           allOf:
             - $ref: '#/components/schemas/Semester'
           nullable: true
-
-        groupAdmin:
+        group-admin:
           allOf:
             - $ref: '#/components/schemas/Person'
           nullable: true
@@ -550,7 +494,6 @@ components:
           format: int64
           maximum: 726
           example: 500
-
         y:
           type: integer
           format: int32
@@ -567,19 +510,16 @@ components:
           type: string
           minLength: 1
           example: Ivan Ivanov
-
         weight:
           type: number
           format: float
           minimum: 0
           exclusiveMinimum: true
           example: 75.5
-
         passportID:
           type: string
           nullable: true
           example: AB123456
-
         location:
           allOf:
             - $ref: '#/components/schemas/Location'
@@ -592,12 +532,10 @@ components:
           type: integer
           format: int64
           example: 100
-
         y:
           type: integer
           format: int64
           example: 200
-
         name:
           type: string
           nullable: true
@@ -620,7 +558,7 @@ components:
 
     ExpelledStudentsSum:
       type: object
-      description: Результат суммирования поля expelledStudents по коллекции.
+      description: Результат суммирования поля expelled-students по коллекции.
       required:
         - sum
       properties:
@@ -671,7 +609,6 @@ components:
 
   parameters:
 
-
     StudyGroupId:
       name: id
       in: path
@@ -697,14 +634,14 @@ components:
 
         Пример:
         ```
-        GET /study-groups?filter=name[like]=Math&filter=studentsCount[gte]=50&filter=studentsCount[lte]=200
+        GET /study-groups?filter=name[like]=Math&filter=students-count[gte]=50&filter=students-count[lte]=200
         ```
 
         Поддерживаемые поля: id, name, coordinates.x, coordinates.y,
-        creationDate, studentsCount, expelledStudents, formOfEducation,
-        semesterEnum, groupAdmin.name, groupAdmin.weight,
-        groupAdmin.passportID, groupAdmin.location.x,
-        groupAdmin.location.y, groupAdmin.location.name.
+        creation-date, students-count, expelled-students, form-of-education,
+        semester-enum, group-admin.name, group-admin.weight,
+        group-admin.passportID, group-admin.location.x,
+        group-admin.location.y, group-admin.location.name.
 
         Операторы: eq, ne, like, ilike, notlike, notilike, gt, lt,
         gte, lte, inlist, notinlist, isnull.
@@ -720,9 +657,9 @@ components:
         multipleConditions:
           summary: Несколько условий через &
           value:
-            - "studentsCount[gte]=50"
-            - "studentsCount[lte]=200"
-            - "formOfEducation[inlist]=FULL_TIME_EDUCATION,EVENING_CLASSES"
+            - "students-count[gte]=50"
+            - "students-count[lte]=200"
+            - "form-of-education[inlist]=FULL_TIME_EDUCATION,EVENING_CLASSES"
 
     Sort:
       name: sort
@@ -739,7 +676,7 @@ components:
 
         Пример:
         ```
-        GET /study-groups?sort=name[asc]&sort=studentsCount[asc]
+        GET /study-groups?sort=name[asc]&sort=students-count[asc]
         ```
 
         Список полей — тот же, что и у параметра `filter`.
@@ -752,12 +689,12 @@ components:
         singleField:
           summary: Сортировка по одному полю
           value:
-            - "studentsCount[desc]"
+            - "students-count[desc]"
         multipleFields:
           summary: Сортировка по нескольким полям через &
           value:
             - "name[asc]"
-            - "studentsCount[asc]"
+            - "students-count[asc]"
 
     Page:
       name: page
@@ -786,25 +723,47 @@ components:
   responses:
 
     BadRequest:
-      description: |
-        Bad Request
+      description: Bad Request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+          example:
+            errors:
+              - code: PARSE_ERROR
+                message: "Некорректный формат запроса"
 
     ValidationError:
-      description: |
-        Unprocessable Entity
+      description: Unprocessable Entity
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+          example:
+            errors:
+              - code: INVALID_FIELD
+                message: "Некорректное поле A: должно быть так-то так-то"
+              - code: INVALID_FIELD
+                message: "Некорректное поле B: должно быть так-то так-то"
 
     NotFound:
-      description: |
-        Not Found
+      description: Not Found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+          example:
+            errors:
+              - code: GROUP_NOT_FOUND
+                message: "Учебная группа с указанным ID не найдена."
+
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            errors:
+              - code: SERVER_ERROR
+                message: "Внутренняя ошибка сервера."
