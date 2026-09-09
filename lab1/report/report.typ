@@ -63,4 +63,4 @@
 
 = Ссылка на гит
 
-#link("https://github.com/bogoyavlensciiAV/SOA/blob/master/lab1/OpenAPI.yaml")
+#link("https://github.com/bogoyavlensciiAV/SOA/")
