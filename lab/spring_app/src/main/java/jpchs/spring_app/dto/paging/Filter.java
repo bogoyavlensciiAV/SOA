@@ -1,4 +1,4 @@
-package jpchs.spring_app.dto.inner;
+package jpchs.spring_app.dto.paging;
 
 public record Filter(
         String field,

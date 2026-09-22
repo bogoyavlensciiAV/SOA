@@ -4,4 +4,5 @@ public enum Errors {
 
     INVALID_FILTER,
     INVALID_SORT,
+    INVALID_ARGUMENT
 }

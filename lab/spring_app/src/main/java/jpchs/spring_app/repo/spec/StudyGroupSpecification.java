@@ -4,7 +4,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jpchs.spring_app.dto.inner.Filter;
+import jpchs.spring_app.dto.paging.Filter;
 import jpchs.spring_app.entity.StudyGroup;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
