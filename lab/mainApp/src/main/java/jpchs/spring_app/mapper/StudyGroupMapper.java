@@ -1,6 +1,7 @@
 package jpchs.spring_app.mapper;
 
 import jpchs.spring_app.dto.StudyGroupDTO;
+import jpchs.spring_app.dto.StudyGroupRequest;
 import jpchs.spring_app.entity.StudyGroup;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,23 @@ public class StudyGroupMapper {
                 dto.formOfEducation(),
                 dto.semesterEnum(),
                 personMapper.fromDTO(dto.groupAdmin())
+        );
+    }
+
+    public StudyGroup fromRequest(StudyGroupRequest req) {
+        if (isNull(req)) {
+            return null;
+        }
+        return new StudyGroup(
+                null,
+                req.name(),
+                coordinateMapper.fromDTO(req.coordinates()),
+                req.creationDate(),
+                req.studentsCount(),
+                req.expelledStudents(),
+                req.formOfEducation(),
+                req.semesterEnum(),
+                personMapper.fromDTO(req.groupAdmin())
         );
     }
 }
