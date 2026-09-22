@@ -12,7 +12,7 @@
   <name>parent</name>
 
   <modules>
-    <module>spring_app</module>
+    <module>mainApp</module>
   </modules>
 
   <properties>
