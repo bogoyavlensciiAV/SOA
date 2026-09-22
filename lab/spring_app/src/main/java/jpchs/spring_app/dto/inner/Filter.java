@@ -2,8 +2,9 @@ package jpchs.spring_app.dto.inner;
 
 public record Filter(
         String field,
+        Class<?> type,
         Operator operator,
-        String value
+        Object value
 ) {
     public enum Operator {
         EQ,
