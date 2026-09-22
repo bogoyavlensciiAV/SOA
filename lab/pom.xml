@@ -13,11 +13,15 @@
 
   <modules>
     <module>spring_app</module>
+    <module>jaxrs_app</module>
   </modules>
 
   <properties>
     <java.version>17</java.version>
     <spring-boot.version>4.1.1</spring-boot.version>
+    <jakartaee.version>10.0.0</jakartaee.version>
+    <microprofile-rest-client.version>3.0.1</microprofile-rest-client.version>
+    <microprofile-config.version>3.1</microprofile-config.version>
   </properties>
 
   <dependencyManagement>
@@ -28,6 +32,27 @@
         <version>${spring-boot.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>jakarta.platform</groupId>
+        <artifactId>jakarta.jakartaee-api</artifactId>
+        <version>${jakartaee.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.microprofile.rest.client</groupId>
+        <artifactId>microprofile-rest-client-api</artifactId>
+        <version>${microprofile-rest-client.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.microprofile.config</groupId>
+        <artifactId>microprofile-config-api</artifactId>
+        <version>${microprofile-config.version}</version>
+        <scope>provided</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
