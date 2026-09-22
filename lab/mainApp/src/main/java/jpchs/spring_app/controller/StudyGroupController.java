@@ -1,13 +1,18 @@
 package jpchs.spring_app.controller;
 
-import jpchs.spring_app.dto.paging.PagedRequest;
-import jpchs.spring_app.dto.paging.PageResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import jpchs.spring_app.dto.StudyGroupDTO;
+import jpchs.spring_app.dto.StudyGroupRequest;
+import jpchs.spring_app.dto.paging.PageResponse;
+import jpchs.spring_app.dto.paging.PagedRequest;
 import jpchs.spring_app.service.StudyGroupService;
 import jpchs.spring_app.util.PagedRequestHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,5 +35,20 @@ public class StudyGroupController {
                 validatedRequest.page() == null ? 0 : validatedRequest.page(),
                 validatedRequest.pageSize() == null ? 25 : validatedRequest.pageSize()
         );
+    }
+
+    @GetMapping("{id}")
+    public StudyGroupDTO getStudyGroupById(
+            @PathVariable("id") @Positive(message = "Id should be positive") Integer id
+    ) {
+        return studyGroupService.findGroupById(id);
+    }
+
+    @PutMapping("{id}")
+    public StudyGroupDTO updateStudyGroup(
+            @PathVariable("id") @Positive(message = "Id should be positive") Integer id,
+            @Valid StudyGroupRequest req
+    ) {
+        return studyGroupService.updateStudyGroup(id, req);
     }
 }

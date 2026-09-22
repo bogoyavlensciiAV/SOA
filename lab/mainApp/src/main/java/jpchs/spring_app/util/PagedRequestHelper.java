@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+import static java.util.Objects.nonNull;
+
 @Component
 @RequiredArgsConstructor
 public class PagedRequestHelper {
@@ -36,25 +38,29 @@ public class PagedRequestHelper {
                     ))
                 );
 
-        for (var filterString : req.filter()) {
-            try {
-                filters.add(filterConverter.convert(filterString));
-            } catch (IllegalArgumentException e) {
-                errors.add(new ErrorItem(
-                        Errors.INVALID_FILTER,
-                        "Invalid filter: " + filterString
-                ));
+        if (nonNull(req.filter()))  {
+            for (var filterString : req.filter()) {
+                try {
+                    filters.add(filterConverter.convert(filterString));
+                } catch (IllegalArgumentException e) {
+                    errors.add(new ErrorItem(
+                            Errors.INVALID_FILTER,
+                            "Invalid filter: " + filterString
+                    ));
+                }
             }
         }
 
-        for (var sortString : req.sort()) {
-            try {
-                sort.add(sortConverter.convert(sortString));
-            } catch (IllegalArgumentException e) {
-                errors.add(new ErrorItem(
-                        Errors.INVALID_SORT,
-                        "Invalid filter: " + sortString
-                ));
+        if (nonNull(req.sort())) {
+            for (var sortString : req.sort()) {
+                try {
+                    sort.add(sortConverter.convert(sortString));
+                } catch (IllegalArgumentException e) {
+                    errors.add(new ErrorItem(
+                            Errors.INVALID_SORT,
+                            "Invalid filter: " + sortString
+                    ));
+                }
             }
         }
 

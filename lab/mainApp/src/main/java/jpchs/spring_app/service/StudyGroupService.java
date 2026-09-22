@@ -1,8 +1,13 @@
 package jpchs.spring_app.service;
 
+import jpchs.spring_app.dto.StudyGroupRequest;
+import jpchs.spring_app.dto.inner.ErrorItem;
 import jpchs.spring_app.dto.paging.PageResponse;
 import jpchs.spring_app.dto.StudyGroupDTO;
 import jpchs.spring_app.dto.paging.Filter;
+import jpchs.spring_app.enm.Errors;
+import jpchs.spring_app.entity.StudyGroup;
+import jpchs.spring_app.exception.ApplicationException;
 import jpchs.spring_app.mapper.StudyGroupMapper;
 import jpchs.spring_app.repo.StudyGroupRepository;
 import jpchs.spring_app.repo.spec.StudyGroupSpecification;
@@ -10,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +32,7 @@ public class StudyGroupService {
     public PageResponse<StudyGroupDTO> findAll(List<Filter> filters, List<Sort> sorts, int page, int pageSize) {
         var sort = sorts.stream().reduce(Sort::and).orElse(Sort.unsorted());
         var spec = studyGroupSpecification.from(filters);
-        Pageable pageable = PageRequest.of(page, pageSize, sort);
+        var pageable = PageRequest.of(page, pageSize, sort);
         var studyGroupPage = studyGroupRepository.findAll(spec, pageable);
         return new PageResponse<>(
                 studyGroupPage.map(mapper::toDTO).toList(),
@@ -34,5 +41,22 @@ public class StudyGroupService {
                 studyGroupPage.getTotalElements(),
                 studyGroupPage.getTotalPages()
         );
+    }
+
+    public StudyGroupDTO findGroupById(Integer id) {
+        return studyGroupRepository.findById(id).map(mapper::toDTO).orElseThrow(() -> new ApplicationException(
+            List.of(new ErrorItem(Errors.NOT_FOUND, "StudyGroup not found for id: " + id)),
+                HttpStatus.NOT_FOUND
+        ));
+    }
+
+    public StudyGroupDTO updateStudyGroup(Integer id, StudyGroupRequest req) {
+        studyGroupRepository.findById(id).orElseThrow(() -> new ApplicationException(
+                List.of(new ErrorItem(Errors.NOT_FOUND, "StudyGroup not found for id: " + id)),
+                HttpStatus.NOT_FOUND
+        ));
+
+        var entityGroup = studyGroupRepository.save(mapper.fromRequest(req));
+        return mapper.toDTO(entityGroup);
     }
 }
