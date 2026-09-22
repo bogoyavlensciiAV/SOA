@@ -7,7 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jpchs.spring_app.enm.FormOfEducation;
 import jpchs.spring_app.enm.Semester;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -16,6 +18,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "study_group")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class StudyGroup {
 
     @Id

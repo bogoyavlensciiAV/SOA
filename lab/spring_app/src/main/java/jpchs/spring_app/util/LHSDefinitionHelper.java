@@ -1,6 +1,6 @@
 package jpchs.spring_app.util;
 
-import jpchs.spring_app.dto.inner.Filter;
+import jpchs.spring_app.dto.paging.Filter;
 import jpchs.spring_app.enm.FormOfEducation;
 import jpchs.spring_app.enm.Semester;
 import org.springframework.context.annotation.Bean;
@@ -13,169 +13,185 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import static jpchs.spring_app.dto.inner.Filter.Operator.*;
+import static jpchs.spring_app.dto.paging.Filter.Operator.*;
 
 @Component
-public class FilterDefinitionHelper {
+public class LHSDefinitionHelper {
 
     @Bean
-    private Map<String, FilterDefinition> definitionMap() {
+    private Map<String, LHSDefinition> lhsDefinitionMap() {
         return Map.ofEntries(
                 // StudyGroup
                 Map.entry(
                         "id",
-                        new FilterDefinition(
+                        new LHSDefinition(
                                 "id",
                                 Integer.class,
                                 Integer::valueOf,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "Id"
                         )
                 ),
                 Map.entry(
                         "name",
-                        new FilterDefinition(
+                        new LHSDefinition(
                                 "name",
                                 String.class,
                                 Function.identity(),
-                                Set.of(EQ, NE, CONTAINS)
+                                Set.of(EQ, NE, CONTAINS),
+                                "Name"
                         )
                 ),
                 Map.entry(
-                        "creationDate",
-                        new FilterDefinition(
+                        "creation-date",
+                        new LHSDefinition(
                                 "creationDate",
                                 Date.class,
                                 this::parseDate,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "Creation date"
                         )
                 ),
                 Map.entry(
-                        "studentsCount",
-                        new FilterDefinition(
+                        "students-count",
+                        new LHSDefinition(
                                 "studentsCount",
                                 Integer.class,
                                 Integer::valueOf,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "Student count"
                         )
                 ),
                 Map.entry(
-                        "expelledStudents",
-                        new FilterDefinition(
+                        "expelled-students",
+                        new LHSDefinition(
                                 "expelledStudents",
                                 Integer.class,
                                 Integer::valueOf,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "Expelled students"
                         )
                 ),
                 Map.entry(
-                        "formOfEducation",
-                        new FilterDefinition(
+                        "form-of-education",
+                        new LHSDefinition(
                                 "formOfEducation",
                                 FormOfEducation.class,
                                 value -> FormOfEducation.valueOf(
                                         value.toUpperCase()
                                 ),
-                                Set.of(EQ, NE)
+                                Set.of(EQ, NE),
+                                "Form of education"
                         )
                 ),
                 Map.entry(
-                        "semesterEnum",
-                        new FilterDefinition(
+                        "semester-enum",
+                        new LHSDefinition(
                                 "semesterEnum",
                                 Semester.class,
                                 value -> Semester.valueOf(
                                         value.toUpperCase()
                                 ),
-                                Set.of(EQ, NE)
+                                Set.of(EQ, NE),
+                                "Semester number"
                         )
                 ),
 
                 // Coordinates
                 Map.entry(
-                        "coordinates_x",
-                        new FilterDefinition(
+                        "coordinates.x",
+                        new LHSDefinition(
                                 "coordinates.x",
                                 Long.class,
                                 Long::valueOf,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "X coordinate"
                         )
                 ),
                 Map.entry(
-                        "coordinates_y",
-                        new FilterDefinition(
+                        "coordinates.y",
+                        new LHSDefinition(
                                 "coordinates.y",
                                 Integer.class,
                                 Integer::valueOf,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "Y coordinate"
                         )
                 ),
 
                 // Person
                 Map.entry(
-                        "groupAdmin_name",
-                        new FilterDefinition(
+                        "group-admin.name",
+                        new LHSDefinition(
                                 "groupAdmin.name",
                                 String.class,
                                 Function.identity(),
-                                Set.of(EQ, NE, CONTAINS)
+                                Set.of(EQ, NE, CONTAINS),
+                                "Group admin's name"
                         )
                 ),
                 Map.entry(
-                        "groupAdmin_weight",
-                        new FilterDefinition(
+                        "group-admin.weight",
+                        new LHSDefinition(
                                 "groupAdmin.weight",
                                 Integer.class,
                                 Integer::valueOf,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "Group admin's weight"
                         )
                 ),
                 Map.entry(
-                        "groupAdmin_passportID",
-                        new FilterDefinition(
+                        "group-admin.passportID",
+                        new LHSDefinition(
                                 "groupAdmin.passportID",
                                 String.class,
                                 Function.identity(),
-                                Set.of(EQ, NE, CONTAINS)
+                                Set.of(EQ, NE, CONTAINS),
+                                "Group admin's passportID"
                         )
                 ),
 
                 // Location
                 Map.entry(
-                        "groupAdmin_location_x",
-                        new FilterDefinition(
+                        "group-admin.location.x",
+                        new LHSDefinition(
                                 "groupAdmin.location.x",
                                 Long.class,
                                 Long::valueOf,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "X coordinate of location of group admin"
                         )
                 ),
                 Map.entry(
-                        "groupAdmin_location_y",
-                        new FilterDefinition(
+                        "group-admin.location.y",
+                        new LHSDefinition(
                                 "groupAdmin.location.y",
                                 Long.class,
                                 Long::valueOf,
-                                Set.of(EQ, NE, GT, GTE, LT, LTE)
+                                Set.of(EQ, NE, GT, GTE, LT, LTE),
+                                "Y coordinate of location of group admin"
                         )
                 ),
 
                 Map.entry(
-                        "groupAdmin_location_name",
-                        new FilterDefinition(
+                        "group-admin.location.name",
+                        new LHSDefinition(
                                 "groupAdmin.location.name",
                                 String.class,
                                 Function.identity(),
-                                Set.of(EQ, NE, CONTAINS)
+                                Set.of(EQ, NE, CONTAINS),
+                                "The name of location of group admin"
                         )
                 )
         );
     }
 
-    public record FilterDefinition(
+    public record LHSDefinition(
             String field,
             Class<?> type,
             Function<String, ?> converter,
-            Set<Filter.Operator> ops
+            Set<Filter.Operator> ops,
+            String humanReadable
     ) {
     }
 
