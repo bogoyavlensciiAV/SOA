@@ -1,10 +1,10 @@
-package jpchs.spring_app.dto.response;
+package jpchs.spring_app.dto;
 
 import jpchs.spring_app.dto.inner.ErrorItem;
 
 import java.util.List;
 
-public record Error(
+public record ErrorDTO(
     List<ErrorItem> errors
 ) {
 }

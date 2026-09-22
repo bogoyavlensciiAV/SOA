@@ -1,8 +1,10 @@
 package jpchs.spring_app.dto.inner;
 
 
+import jpchs.spring_app.enm.Errors;
+
 public record ErrorItem (
-    String code,
+    Errors code,
     String message
 ) {
 }

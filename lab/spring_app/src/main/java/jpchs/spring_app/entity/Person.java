@@ -16,21 +16,20 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    Long id;
 
     @NotBlank
     @Column(nullable = false)
-    private String name;
+    String name;
 
     @Positive
-    @Column(nullable = false)
-    private int weight;
+    int weight;
 
     @Size(min = 6)
     @Column(name = "passport_id", unique = true)
-    private String passportID;
+    String passportID;
 
     @Valid
     @Embedded
-    private Location location;
+    Location location;
 }

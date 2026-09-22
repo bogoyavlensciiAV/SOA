@@ -1,9 +1,13 @@
 package jpchs.spring_app.converter;
 
-import jpchs.spring_app.exception.InvalidSortException;
+import jpchs.spring_app.dto.inner.ErrorItem;
+import jpchs.spring_app.enm.Errors;
+import jpchs.spring_app.exception.ApplicationException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class LHSStringToSortConverter implements Converter<String, Sort> {
@@ -17,7 +21,9 @@ public class LHSStringToSortConverter implements Converter<String, Sort> {
 
             return Sort.by(direction, property);
         } catch (IllegalArgumentException e) {
-            throw new InvalidSortException(source);
+            var errorMessage = "Invalid sort argument: %s";
+            var error = new ErrorItem(Errors.INVALID_SORT, errorMessage.formatted(source));
+            throw new ApplicationException(List.of(error));
         }
     }
 }
