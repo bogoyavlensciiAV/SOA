@@ -9,7 +9,7 @@ import jpchs.spring_app.enm.Semester;
 public record StudyGroupRequest(
         String name,
         CoordinatesDTO coordinates,
-        @JsonProperty("creating-date")
+        @JsonProperty("creation-date")
         String creationDate,
         @JsonProperty("students-count")
         int studentsCount,
