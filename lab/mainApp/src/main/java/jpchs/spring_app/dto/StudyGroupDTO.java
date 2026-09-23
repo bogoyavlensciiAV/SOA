@@ -13,7 +13,7 @@ public record StudyGroupDTO(
         String name,
         CoordinatesDTO coordinates,
         @JsonProperty("creating-date")
-        Date creationDate,
+        String creationDate,
         @JsonProperty("students-count")
         int studentsCount,
         @JsonProperty("expelled-students")
