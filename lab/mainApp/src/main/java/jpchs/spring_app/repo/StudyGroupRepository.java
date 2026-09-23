@@ -1,8 +1,6 @@
 package jpchs.spring_app.repo;
 
 import jpchs.spring_app.entity.StudyGroup;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.NullMarked;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,7 +34,6 @@ public interface StudyGroupRepository extends JpaRepository<StudyGroup, Integer>
     """)
     List<StudyGroup> findAllNameStartingWithPrefix(@Param("prefix") String prefix);
 
-    @NullMarked
     @EntityGraph(attributePaths = {
             "groupAdmin",
             "groupAdmin.location"
