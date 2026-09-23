@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+
+@theme {
+	--font-sans:
+		ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+		sans-serif;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	@apply bg-slate-50 text-slate-900 antialiased;
+}
+
+/* Small utility for truncating table cells nicely */
+.cell-truncate {
+	@apply max-w-[220px] truncate;
+}

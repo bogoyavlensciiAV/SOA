@@ -32,6 +32,7 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDTO> handle(MethodArgumentNotValidException ex) {
+        log.info(ex.toString());
         var errorMessage = "Invalid field %s. Value was %s";
         var errors = ex.getBindingResult()
                 .getFieldErrors()
@@ -51,6 +52,7 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<ErrorDTO> handle(HandlerMethodValidationException ex) {
+        log.info(ex.toString());
         var errorMessage = "Invalid value for %s: %s";
         var errors = ex.getParameterValidationResults().stream()
                 .map(v -> new ErrorItem(Errors.INVALID_ARGUMENT,
