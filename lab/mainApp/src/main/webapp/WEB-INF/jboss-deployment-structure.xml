@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+    <deployment>
+        <exclusions>
+            <module name="jakarta.persistence.api"/>
+            <module name="org.hibernate"/>
+            <module name="org.slf4j"/>
+        </exclusions>
+        <exclude-subsystems>
+            <subsystem name="jpa"/>
+            <subsystem name="logging"/>
+        </exclude-subsystems>
+    </deployment>
+</jboss-deployment-structure>

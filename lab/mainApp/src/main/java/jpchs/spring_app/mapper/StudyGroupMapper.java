@@ -2,12 +2,9 @@ package jpchs.spring_app.mapper;
 
 import jpchs.spring_app.dto.StudyGroupDTO;
 import jpchs.spring_app.dto.StudyGroupRequest;
-import jpchs.spring_app.dto.inner.ErrorItem;
-import jpchs.spring_app.enm.Errors;
 import jpchs.spring_app.entity.StudyGroup;
 import jpchs.spring_app.exception.ApplicationException;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +14,6 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
-@Slf4j
 @Component
 @AllArgsConstructor
 public class StudyGroupMapper {

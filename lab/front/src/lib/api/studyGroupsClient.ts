@@ -8,12 +8,10 @@ import type {
 	PageResponse
 } from '$lib/types/api';
 
-/** `field[operator]=value` — LHS bracket notation used by the `filter` param. */
 function serializeFilter(condition: FilterCondition): string {
 	return `${condition.field}[${condition.operator.toLowerCase()}]=${condition.value}`;
 }
 
-/** `field[direction]` — notation used by the `sort` param. */
 function serializeSort(condition: SortCondition): string {
 	return `${condition.field}[${condition.direction}]`;
 }
@@ -25,7 +23,6 @@ export interface GetStudyGroupsOptions {
 	pageSize?: number;
 }
 
-/** `GET /study-groups` — list, with filtering, sorting and pagination. */
 export function getStudyGroups(options: GetStudyGroupsOptions = {}): Promise<PageResponse<StudyGroup>> {
 	const { filters = [], sorts = [], page, pageSize } = options;
 	return request<PageResponse<StudyGroup>>('/study-groups', {
@@ -36,28 +33,24 @@ export function getStudyGroups(options: GetStudyGroupsOptions = {}): Promise<Pag
 			page,
 			pageSize
 		}
-	});
+	}, false);
 }
 
-/** `GET /study-groups/{id}` */
 export function getStudyGroupById(id: number): Promise<StudyGroup> {
-	return request<StudyGroup>(`/study-groups/${encodePathSegment(id)}`, { method: 'GET' });
+	return request<StudyGroup>(`/study-groups/${encodePathSegment(id)}`, { method: 'GET' }, false);
 }
 
-/** `POST /study-groups` — `id` and `creation-date` are server-generated. */
 export function createStudyGroup(payload: StudyGroupCreate): Promise<StudyGroup> {
-	return request<StudyGroup>('/study-groups', { method: 'POST', body: payload });
+	return request<StudyGroup>('/study-groups', { method: 'POST', body: payload }, false);
 }
 
-/** `PUT /study-groups/{id}` — full update; `id` / `creation-date` untouched. */
 export function updateStudyGroup(id: number, payload: StudyGroupUpdate): Promise<StudyGroup> {
 	return request<StudyGroup>(`/study-groups/${encodePathSegment(id)}`, {
 		method: 'PUT',
 		body: payload
-	});
+	}, false);
 }
 
-/** `DELETE /study-groups/{id}` */
 export function deleteStudyGroup(id: number): Promise<void> {
-	return request<void>(`/study-groups/${encodePathSegment(id)}`, { method: 'DELETE' });
+	return request<void>(`/study-groups/${encodePathSegment(id)}`, { method: 'DELETE' }, false);
 }

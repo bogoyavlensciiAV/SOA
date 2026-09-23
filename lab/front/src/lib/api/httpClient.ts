@@ -1,14 +1,8 @@
-import { API_BASE_URL } from '$lib/config';
+import { API_BASE_URL, ISU_BASE_URL } from '$lib/config';
 import type { ApiErrorBody } from '$lib/types/api';
 
-/**
- * Normalized error thrown by every API client function in this app.
- * All UI components should catch this single error type.
- */
 export class ApiError extends Error {
-	/** HTTP status code, or `0` for network-level failures. */
 	status: number;
-	/** Machine-readable error codes returned by the API, if any. */
 	codes: string[];
 
 	constructor(message: string, status: number, codes: string[] = []) {
@@ -22,11 +16,10 @@ export class ApiError extends Error {
 export type QueryValue = string | number | boolean | null | undefined;
 export type QueryParams = Record<string, QueryValue | QueryValue[]>;
 
-/** Builds a full URL from a path relative to the API base, plus query params. */
-function buildUrl(path: string, params?: QueryParams): string {
+function buildUrl(path: string,  isIsu: boolean, params?: QueryParams): string {
 	const url = new URL(
 		path.replace(/^\//, ''),
-		API_BASE_URL.endsWith('/') ? API_BASE_URL : `${API_BASE_URL}/`
+		isIsu ? ISU_BASE_URL.endsWith('/') ? ISU_BASE_URL : `${ISU_BASE_URL}/` : API_BASE_URL.endsWith('/') ? API_BASE_URL : `${API_BASE_URL}/`
 	);
 
 	if (params) {
@@ -46,7 +39,6 @@ function buildUrl(path: string, params?: QueryParams): string {
 	return url.toString();
 }
 
-/** Encodes a single path segment (e.g. an id or a free-text prefix). */
 export function encodePathSegment(value: string | number): string {
 	return encodeURIComponent(String(value));
 }
@@ -66,7 +58,6 @@ async function parseErrorBody(response: Response): Promise<{ message: string; co
 			return { message, codes };
 		}
 	} catch {
-		// Response body wasn't valid JSON in the expected shape — fall through.
 	}
 	return { message: defaultMessageForStatus(response.status), codes: [] };
 }
@@ -94,15 +85,9 @@ export interface RequestOptions {
 	body?: unknown;
 }
 
-/**
- * Shared request function used by every API client. Handles URL building,
- * JSON (de)serialization, HTTP status checking and error normalization, so
- * individual client files and Svelte components never need to touch `fetch`
- * or error-handling logic directly.
- */
-export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+export async function request<T>(path: string, options: RequestOptions = {}, isIsu: boolean): Promise<T> {
 	const { method = 'GET', params, body } = options;
-	const url = buildUrl(path, params);
+	const url = buildUrl(path, isIsu, params);
 
 	let response: Response;
 	try {

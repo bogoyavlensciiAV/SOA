@@ -1,6 +1,5 @@
 package jpchs.spring_app;
 
-import org.jspecify.annotations.NullMarked;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,7 +13,6 @@ public class SpringAppApplication extends SpringBootServletInitializer {
     }
 
     @Override
-    @NullMarked
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(SpringAppApplication.class);
     }

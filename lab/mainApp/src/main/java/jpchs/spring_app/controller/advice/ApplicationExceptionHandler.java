@@ -4,7 +4,6 @@ import jpchs.spring_app.dto.ErrorDTO;
 import jpchs.spring_app.dto.inner.ErrorItem;
 import jpchs.spring_app.enm.Errors;
 import jpchs.spring_app.exception.ApplicationException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
-@Slf4j
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 
@@ -32,7 +30,6 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDTO> handle(MethodArgumentNotValidException ex) {
-        log.info(ex.toString());
         var errorMessage = "Invalid field %s. Value was %s";
         var errors = ex.getBindingResult()
                 .getFieldErrors()
@@ -46,13 +43,12 @@ public class ApplicationExceptionHandler {
                 .toList();
 
         return ResponseEntity
-                .status(UNPROCESSABLE_CONTENT)
+                .status(UNPROCESSABLE_ENTITY)
                 .body(new ErrorDTO(errors));
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<ErrorDTO> handle(HandlerMethodValidationException ex) {
-        log.info(ex.toString());
         var errorMessage = "Invalid value for %s: %s";
         var errors = ex.getParameterValidationResults().stream()
                 .map(v -> new ErrorItem(Errors.INVALID_ARGUMENT,
@@ -63,7 +59,7 @@ public class ApplicationExceptionHandler {
                         )))
                 .toList();
 
-        return ResponseEntity.status(UNPROCESSABLE_CONTENT).body(new ErrorDTO(errors));
+        return ResponseEntity.status(UNPROCESSABLE_ENTITY).body(new ErrorDTO(errors));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

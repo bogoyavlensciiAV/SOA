@@ -5,7 +5,8 @@ import type { FormOfEducation, StudyGroup } from '$lib/types/api';
 export function moveStudents(fromGroup: number, toGroup: number): Promise<void> {
 	return request<void>(
 		`/isu/group/${encodePathSegment(fromGroup)}/move/${encodePathSegment(toGroup)}`,
-		{ method: 'POST' }
+		{ method: 'POST' },
+		true
 	);
 }
 
@@ -16,6 +17,7 @@ export function changeEducationForm(
 ): Promise<StudyGroup> {
 	return request<StudyGroup>(
 		`/isu/group/${encodePathSegment(groupId)}/change-edu-form/${encodePathSegment(newForm)}`,
-		{ method: 'POST' }
+		{ method: 'POST' },
+		true
 	);
 }
