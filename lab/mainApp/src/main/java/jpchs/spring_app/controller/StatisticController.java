@@ -26,7 +26,7 @@ public class StatisticController {
         return statisticsService.calculateSum();
     }
 
-    @GetMapping("/student-count/{student-count}/count")
+    @GetMapping("/students-count/{student-count}/count")
     public CountResponse countGroupWithStudentCount(
             @PathVariable("student-count") int studentCount
     ) {
