@@ -7,7 +7,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.util.Map;
 
-@RegisterRestClient(configKey = "study-group-api", baseUri = "http://localhost:40834/study-groups-app")
+@RegisterRestClient(configKey = "study-group-api", baseUri = "http://localhost:8080")
 @Path("/study-groups")
 public interface StudyGroupClient {
 
@@ -22,6 +22,6 @@ public interface StudyGroupClient {
     @Produces(MediaType.APPLICATION_JSON)
     JsonObject update(
             @PathParam("id") long id,
-            Map<String, Object> body
+            JsonObject body
     );
 }

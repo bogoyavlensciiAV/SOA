@@ -1,6 +1,7 @@
 package jpchs.isuApp.controller;
 
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -35,13 +36,16 @@ public class IsuController {
         long moved = from.getJsonNumber("students-count").longValue();
         long targetStudents = to.getJsonNumber("students-count").longValue();
 
-        client.update(toId, Map.of(
-                "students-count", targetStudents + moved
-        ));
+        JsonObject patchedTo = Json.createObjectBuilder(to)
+                .add("students-count", targetStudents + moved)
+                .build();
 
-        client.update(fromId, Map.of(
-                "students-count", 0L
-        ));
+        JsonObject patchedFrom = Json.createObjectBuilder(from)
+                .add("students-count", 0L)
+                .build();
+
+        client.update(toId, patchedTo);
+        client.update(fromId, patchedFrom);
 
         return Response.noContent().build();
     }
@@ -52,9 +56,13 @@ public class IsuController {
             @PathParam("group-id") long groupId,
             @PathParam("new-form") String newForm) {
 
-        client.update(groupId, Map.of(
-                "form-of-education", newForm
-        ));
+        JsonObject group = client.getById(groupId);
+
+        JsonObject patchedGroup = Json.createObjectBuilder(group)
+                .add("form-of-education", newForm)
+                .build();
+
+        client.update(groupId, patchedGroup);
 
         return Response.noContent().build();
     }
