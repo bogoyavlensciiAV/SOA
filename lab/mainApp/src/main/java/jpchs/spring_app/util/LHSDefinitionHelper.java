@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import static jpchs.spring_app.dto.paging.Filter.Operator.*;
 
@@ -198,7 +199,10 @@ public class LHSDefinitionHelper {
 
     private Date parseDate(String value) {
         try {
-            return new SimpleDateFormat("yyyy-MM-dd").parse(value);
+            if (!Pattern.matches("^\\d{2}-\\d{2}-\\d{4}$", value)) {
+                throw new IllegalArgumentException();
+            }
+            return new SimpleDateFormat("dd-MM-yyyy").parse(value);
         } catch (ParseException e) {
             throw new IllegalArgumentException(
                     "Invalid date: " + value,

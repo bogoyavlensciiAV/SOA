@@ -7,6 +7,7 @@ import jpchs.spring_app.dto.paging.PageResponse;
 import jpchs.spring_app.dto.StudyGroupDTO;
 import jpchs.spring_app.dto.paging.Filter;
 import jpchs.spring_app.enm.Errors;
+import jpchs.spring_app.entity.StudyGroup;
 import jpchs.spring_app.exception.ApplicationException;
 import jpchs.spring_app.mapper.StudyGroupMapper;
 import jpchs.spring_app.repo.StudyGroupRepository;
@@ -50,12 +51,16 @@ public class StudyGroupService {
     }
 
     public StudyGroupDTO updateStudyGroup(Integer id, StudyGroupRequest req) {
-        studyGroupRepository.findById(id).orElseThrow(() -> new ApplicationException(
+        var entity = studyGroupRepository.findById(id).orElseThrow(() -> new ApplicationException(
                 List.of(new ErrorItem(Errors.NOT_FOUND, "StudyGroup not found for id: " + id)),
                 HttpStatus.NOT_FOUND
         ));
 
-        var entityGroup = studyGroupRepository.save(mapper.fromRequest(req));
+        var update = mapper.fromRequest(req);
+        update.setId(entity.getId());
+        update.setCreationDate(entity.getCreationDate());
+        update.getGroupAdmin().setId(entity.getGroupAdmin().getId());
+        var entityGroup = studyGroupRepository.save(update);
         return mapper.toDTO(entityGroup);
     }
 

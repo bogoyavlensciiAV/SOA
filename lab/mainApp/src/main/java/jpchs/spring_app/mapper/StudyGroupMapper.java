@@ -48,27 +48,16 @@ public class StudyGroupMapper {
         if (isNull(req)) {
             return null;
         }
-        try {
-            return new StudyGroup(
-                    null,
-                    req.name(),
-                    coordinateMapper.fromDTO(req.coordinates()),
-                    dateFormat.parse(req.creationDate()),
-                    req.studentsCount(),
-                    req.expelledStudents(),
-                    req.formOfEducation(),
-                    req.semesterEnum(),
-                    personMapper.fromDTO(req.groupAdmin())
-            );
-        } catch (ParseException ignored) {
-            // should be handled by request validation
-            var errors = List.of(
-                    new ErrorItem(
-                            Errors.DATE_PARSING_ERROR,
-                            "Encountered error with parsing String to date"
-                    )
-            );
-            throw new ApplicationException(errors, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new StudyGroup(
+                null,
+                req.name(),
+                coordinateMapper.fromDTO(req.coordinates()),
+                null,
+                req.studentsCount(),
+                req.expelledStudents(),
+                req.formOfEducation(),
+                req.semesterEnum(),
+                personMapper.fromDTO(req.groupAdmin())
+        );
     }
 }

@@ -47,14 +47,14 @@ public class StudyGroupController {
     @PutMapping("{id}")
     public StudyGroupDTO updateStudyGroup(
             @PathVariable("id") @Positive(message = "Id should be positive") Integer id,
-            @Valid StudyGroupRequest req
+            @RequestBody @Valid StudyGroupRequest req
     ) {
         return studyGroupService.updateStudyGroup(id, req);
     }
 
     @PostMapping
     public ResponseEntity<StudyGroupDTO> create(
-            @Valid StudyGroupRequest req
+            @RequestBody @Valid StudyGroupRequest req
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(studyGroupService.create(req));
     }
@@ -63,7 +63,7 @@ public class StudyGroupController {
     public ResponseEntity<Void> delete(
             @PathVariable("id") @Positive(message = "Id should be positive") Integer id
     ) {
-
+        studyGroupService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
