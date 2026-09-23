@@ -10,10 +10,9 @@ import jpchs.spring_app.service.StudyGroupService;
 import jpchs.spring_app.util.PagedRequestHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("study-groups")
 public class StudyGroupController {
 
     private final StudyGroupService studyGroupService;
@@ -50,5 +50,20 @@ public class StudyGroupController {
             @Valid StudyGroupRequest req
     ) {
         return studyGroupService.updateStudyGroup(id, req);
+    }
+
+    @PostMapping
+    public ResponseEntity<StudyGroupDTO> create(
+            @Valid StudyGroupRequest req
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(studyGroupService.create(req));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(
+            @PathVariable("id") @Positive(message = "Id should be positive") Integer id
+    ) {
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

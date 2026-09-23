@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_CONTENT;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestControllerAdvice
@@ -75,5 +75,18 @@ public class ApplicationExceptionHandler {
         );
 
         return ResponseEntity.status(BAD_REQUEST).body(new ErrorDTO(errors));
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorDTO> handle(NoResourceFoundException ex) {
+        var errorMessage = "No resource found for method %s on path %s";
+        var errors = List.of(
+                new ErrorItem(
+                        Errors.NO_RESOURCE_FOUND,
+                        errorMessage.formatted(ex.getHttpMethod(), ex.getResourcePath())
+                )
+        );
+
+        return ResponseEntity.status(NOT_FOUND).body(new ErrorDTO(errors));
     }
 }
