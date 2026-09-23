@@ -2,17 +2,27 @@ package jpchs.spring_app.mapper;
 
 import jpchs.spring_app.dto.StudyGroupDTO;
 import jpchs.spring_app.dto.StudyGroupRequest;
+import jpchs.spring_app.dto.inner.ErrorItem;
+import jpchs.spring_app.enm.Errors;
 import jpchs.spring_app.entity.StudyGroup;
+import jpchs.spring_app.exception.ApplicationException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class StudyGroupMapper {
+
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     private final PersonMapper personMapper;
     private final CoordinateMapper coordinateMapper;
@@ -25,7 +35,7 @@ public class StudyGroupMapper {
                 entity.getId(),
                 entity.getName(),
                 coordinateMapper.toDTO(entity.getCoordinates()),
-                entity.getCreationDate(),
+                dateFormat.format(entity.getCreationDate()),
                 entity.getStudentsCount(),
                 entity.getExpelledStudents(),
                 entity.getFormOfEducation(),
@@ -34,37 +44,31 @@ public class StudyGroupMapper {
         );
     }
 
-    public StudyGroup fromDTO(StudyGroupDTO dto) {
-        if (isNull(dto)) {
-            return null;
-        }
-        return new StudyGroup(
-                dto.id(),
-                dto.name(),
-                coordinateMapper.fromDTO(dto.coordinates()),
-                dto.creationDate(),
-                dto.studentsCount(),
-                dto.expelledStudents(),
-                dto.formOfEducation(),
-                dto.semesterEnum(),
-                personMapper.fromDTO(dto.groupAdmin())
-        );
-    }
-
     public StudyGroup fromRequest(StudyGroupRequest req) {
         if (isNull(req)) {
             return null;
         }
-        return new StudyGroup(
-                null,
-                req.name(),
-                coordinateMapper.fromDTO(req.coordinates()),
-                req.creationDate(),
-                req.studentsCount(),
-                req.expelledStudents(),
-                req.formOfEducation(),
-                req.semesterEnum(),
-                personMapper.fromDTO(req.groupAdmin())
-        );
+        try {
+            return new StudyGroup(
+                    null,
+                    req.name(),
+                    coordinateMapper.fromDTO(req.coordinates()),
+                    dateFormat.parse(req.creationDate()),
+                    req.studentsCount(),
+                    req.expelledStudents(),
+                    req.formOfEducation(),
+                    req.semesterEnum(),
+                    personMapper.fromDTO(req.groupAdmin())
+            );
+        } catch (ParseException ignored) {
+            // should be handled by request validation
+            var errors = List.of(
+                    new ErrorItem(
+                            Errors.DATE_PARSING_ERROR,
+                            "Encountered error with parsing String to date"
+                    )
+            );
+            throw new ApplicationException(errors, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

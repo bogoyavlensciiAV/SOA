@@ -6,13 +6,11 @@ import jpchs.spring_app.dto.inner.PersonDTO;
 import jpchs.spring_app.enm.FormOfEducation;
 import jpchs.spring_app.enm.Semester;
 
-import java.util.Date;
-
 public record StudyGroupRequest(
         String name,
         CoordinatesDTO coordinates,
         @JsonProperty("creating-date")
-        Date creationDate,
+        String creationDate,
         @JsonProperty("students-count")
         int studentsCount,
         @JsonProperty("expelled-students")
