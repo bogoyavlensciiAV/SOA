@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jpchs.spring_app.dto.inner.CoordinatesDTO;
 import jpchs.spring_app.dto.inner.PersonDTO;
 import jpchs.spring_app.enm.FormOfEducation;
@@ -19,11 +20,11 @@ public record StudyGroupRequest(
         CoordinatesDTO coordinates,
 
         @NotNull
-        @Positive
+        @PositiveOrZero
         @JsonProperty("students-count")
         Integer studentsCount,
 
-        @Positive
+        @PositiveOrZero
         @JsonProperty("expelled-students")
         Integer expelledStudents,
 

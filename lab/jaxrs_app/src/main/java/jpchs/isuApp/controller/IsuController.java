@@ -62,8 +62,8 @@ public class IsuController {
                 .add("form-of-education", newForm)
                 .build();
 
-        client.update(groupId, patchedGroup);
+        JsonObject resp = client.update(groupId, patchedGroup);
 
-        return Response.noContent().build();
+        return Response.ok(resp).build();
     }
 }

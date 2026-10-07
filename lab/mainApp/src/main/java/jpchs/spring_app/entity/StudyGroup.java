@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jpchs.spring_app.enm.FormOfEducation;
 import jpchs.spring_app.enm.Semester;
 import lombok.AllArgsConstructor;
@@ -38,11 +39,11 @@ public class StudyGroup {
     @Column(name = "creation_date", nullable = false, updatable = false)
     Date creationDate;
 
-    @Positive
+    @PositiveOrZero
     @Column(name = "students_count")
     int studentsCount;
 
-    @Positive
+    @PositiveOrZero
     @Column(name = "expelled_students")
     Integer expelledStudents;
 
