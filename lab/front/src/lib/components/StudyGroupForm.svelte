@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { FORM_OF_EDUCATION_LABELS, SEMESTER_LABELS } from '$lib/labels';
 	import { untrack } from 'svelte';
 	import {
 		FORM_OF_EDUCATION_VALUES,
@@ -204,19 +205,19 @@
 
 		<div class="grid grid-cols-2 gap-3">
 			<div>
-				<label class="mb-1 block text-sm font-medium text-slate-700" for="foe">Form of education *</label>
+				<label class="mb-1 block text-sm font-medium text-slate-700" for="foe">Форма обучения *</label>
 				<select
 					id="foe"
 					class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
 					bind:value={form.formOfEducation}
 				>
 					{#each FORM_OF_EDUCATION_VALUES as v (v)}
-						<option value={v}>{v}</option>
+						<option value={v}>{FORM_OF_EDUCATION_LABELS[v]}</option>
 					{/each}
 				</select>
 			</div>
 			<div>
-				<label class="mb-1 block text-sm font-medium text-slate-700" for="sem">Semester (nullable)</label>
+				<label class="mb-1 block text-sm font-medium text-slate-700" for="sem">Семестр (необязательно)</label>
 				<select
 					id="sem"
 					class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
@@ -224,7 +225,7 @@
 				>
 					<option value="">— не задано —</option>
 					{#each SEMESTER_VALUES as v (v)}
-						<option value={v}>{v}</option>
+						<option value={v}>{SEMESTER_LABELS[v]}</option>
 					{/each}
 				</select>
 			</div>

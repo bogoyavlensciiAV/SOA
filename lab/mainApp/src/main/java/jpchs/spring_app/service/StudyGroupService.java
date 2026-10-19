@@ -7,7 +7,6 @@ import jpchs.spring_app.dto.paging.PageResponse;
 import jpchs.spring_app.dto.StudyGroupDTO;
 import jpchs.spring_app.dto.paging.Filter;
 import jpchs.spring_app.enm.Errors;
-import jpchs.spring_app.entity.StudyGroup;
 import jpchs.spring_app.exception.ApplicationException;
 import jpchs.spring_app.mapper.StudyGroupMapper;
 import jpchs.spring_app.repo.StudyGroupRepository;
@@ -19,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Objects.nonNull;
 

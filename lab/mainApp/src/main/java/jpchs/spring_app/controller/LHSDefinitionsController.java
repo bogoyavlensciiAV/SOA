@@ -24,7 +24,9 @@ public class LHSDefinitionsController {
                 .map(e -> new LHSDefinitionDTO(
                         e.getKey(),
                         e.getValue().ops(),
-                        e.getValue().type()
+                        e.getValue().type(),
+                        e.getValue().allowedEnum(),
+                        e.getValue().humanReadable()
                 )).toList();
     }
 }

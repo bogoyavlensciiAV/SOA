@@ -22,9 +22,6 @@
 		onClear: () => void;
 	} = $props();
 
-	// Local, editable copies — only pushed up when "Применить" is clicked.
-	// Deliberately captures only the initial value of `filters`/`sorts` (the
-	// panel owns its own draft state until the user applies it).
 	let draftFilters = $state<FilterCondition[]>(
 		untrack(() => structuredClone($state.snapshot(filters)))
 	);
@@ -34,7 +31,21 @@
 
 
 	function addFilter() {
-		draftFilters = [...draftFilters, { field: 'name', operator: 'EQ', value: '' }];
+		const definition = definitions.find((d) => d.field === 'name') ?? definitions[0];
+		if (!definition) return;
+		draftFilters = [...draftFilters, {
+			field: definition.field,
+			operator: definition.allowedOperators[0] ?? 'EQ',
+			value: ''
+		}];
+	}
+
+	function changeFilterField(filter: FilterCondition) {
+		const definition = definitions.find((d) => d.field === filter.field);
+		if (!definition?.allowedOperators.includes(filter.operator)) {
+			filter.operator = definition?.allowedOperators[0] ?? 'EQ';
+		}
+		filter.value = '';
 	}
 
 	function removeFilter(index: number) {
@@ -42,7 +53,9 @@
 	}
 
 	function addSort() {
-		draftSorts = [...draftSorts, { field: 'name', direction: 'asc' }];
+		const definition = definitions.find((d) => !draftSorts.some((sort) => sort.field === d.field));
+		if (!definition) return;
+		draftSorts = [...draftSorts, { field: definition.field, direction: 'asc' }];
 	}
 
 	function removeSort(index: number) {
@@ -83,25 +96,38 @@
 						<select
 							class="min-w-[10rem] rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
 							bind:value={filter.field}
+							onchange={() => changeFilterField(filter)}
 						>
-							{#each definitions.map(d => d.field) as field (field)}
-								<option value={field}>{field}</option>
+							{#each definitions as definition}
+								<option value={definition.field}>{definition.humanReadable}</option>
 							{/each}
 						</select>
 						<select
 							class="rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
 							bind:value={filter.operator}
 						>
-							{#each definitions.find(d => d.field === filter.field)?.allowedOperators ?? [] as op (op)}
+							{#each definitions.find(d => d.field === filter.field)?.allowedOperators ?? [] as op}
 								<option value={op}>{op}</option>
 							{/each}
 						</select>
-						<input
-							type="text"
-							placeholder="значение"
-							class="w-32 flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
-							bind:value={filter.value}
-						/>
+						{#if definitions.find((d) => d.field === filter.field)?.allowedEnum?.length}
+							<select
+								class="w-32 flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+								bind:value={filter.value}
+							>
+								<option value="" disabled>Выберите значение</option>
+								{#each definitions.find((d) => d.field === filter.field)?.allowedEnum ?? [] as value}
+									<option {value}>{value}</option>
+								{/each}
+							</select>
+						{:else}
+							<input
+								type="text"
+								placeholder="значение"
+								class="w-32 flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+								bind:value={filter.value}
+							/>
+						{/if}
 						<button
 							type="button"
 							aria-label="Удалить условие"
@@ -120,7 +146,8 @@
 		<div class="flex-1">
 			<div class="flex items-center justify-between">
 				<h3 class="text-sm font-semibold text-slate-900">Сортировка</h3>
-				<button type="button" class="text-xs font-medium text-sky-600 hover:text-sky-700" onclick={addSort}>
+				<button type="button" class="text-xs font-medium text-sky-600 hover:text-sky-700" onclick={addSort}
+					disabled={!definitions.some((d) => !draftSorts.some((sort) => sort.field === d.field))}>
 					+ Поле
 				</button>
 			</div>
@@ -130,23 +157,26 @@
 			{/if}
 
 			<div class="mt-2 space-y-2">
-				{#each draftSorts as sort, i (i)}
+				{#each draftSorts as sort, i}
 					<div class="flex flex-wrap items-center gap-2">
 						<span class="w-5 text-xs text-slate-400">{i + 1}.</span>
 						<select
 							class="min-w-[10rem] rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
 							bind:value={sort.field}
 						>
-							{#each definitions.map(d => d.field) as field (field)}
-								<option value={field}>{field}</option>
+							{#each definitions as definition}
+								<option
+									value={definition.field}
+									disabled={draftSorts.some((other, index) => index !== i && other.field === definition.field)}
+								>{definition.humanReadable}</option>
 							{/each}
 						</select>
 						<select
 							class="rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
 							bind:value={sort.direction}
 						>
-							<option value="asc">asc</option>
-							<option value="desc">desc</option>
+							<option value="asc">По возрастанию</option>
+							<option value="desc">По убыванию</option>
 						</select>
 						<button
 							type="button"

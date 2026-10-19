@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { FORM_OF_EDUCATION_LABELS, SEMESTER_LABELS } from '$lib/labels';
 	import { onMount } from 'svelte';
 	import DataTable from '$lib/components/DataTable.svelte';
 	import Pagination from '$lib/components/Pagination.svelte';
@@ -160,7 +161,6 @@
 	<div class="flex flex-wrap items-center justify-between gap-3">
 		<div>
 			<h1 class="text-lg font-semibold text-slate-900">Study Groups</h1>
-			<p class="text-sm text-slate-500">Коллекция учебных групп: просмотр, фильтрация, CRUD.</p>
 		</div>
 		<button
 			type="button"
@@ -242,11 +242,11 @@
 				<dt class="text-slate-500">Expelled students</dt>
 				<dd class="text-slate-900">{viewingGroup['expelled-students']}</dd>
 
-				<dt class="text-slate-500">Form of education</dt>
-				<dd class="text-slate-900">{viewingGroup['form-of-education']}</dd>
+				<dt class="text-slate-500">Форма обучения</dt>
+				<dd class="text-slate-900">{FORM_OF_EDUCATION_LABELS[viewingGroup['form-of-education']]}</dd>
 
-				<dt class="text-slate-500">Semester</dt>
-				<dd class="text-slate-900">{viewingGroup['semester-enum'] ?? '—'}</dd>
+				<dt class="text-slate-500">Семестр</dt>
+				<dd class="text-slate-900">{(viewingGroup['semester-enum'] ? SEMESTER_LABELS[viewingGroup['semester-enum']] : null) ?? '—'}</dd>
 
 				<dt class="col-span-2 mt-2 border-t border-slate-100 pt-2 font-medium text-slate-700">Group admin</dt>
 				{#if viewingGroup['group-admin']}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { FORM_OF_EDUCATION_LABELS, SEMESTER_LABELS } from '$lib/labels';
 	import type { StudyGroup } from '$lib/types/api';
 
 	let {
@@ -52,10 +53,10 @@
 					<td class="px-3 py-2.5 text-slate-600">{group['expelled-students']}</td>
 					<td class="px-3 py-2.5 text-slate-600">
 						<span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
-							{group['form-of-education']}
+							{FORM_OF_EDUCATION_LABELS[group['form-of-education']]}
 						</span>
 					</td>
-					<td class="px-3 py-2.5 text-slate-600">{group['semester-enum'] ?? '—'}</td>
+					<td class="px-3 py-2.5 text-slate-600">{(group['semester-enum'] ? SEMESTER_LABELS[group['semester-enum']] : null) ?? '—'}</td>
 					<td class="cell-truncate px-3 py-2.5 text-slate-600">{formatAdmin(group)}</td>
 					<td class="px-3 py-2.5">
 						<div class="flex justify-end gap-1">

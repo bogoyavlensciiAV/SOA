@@ -8,11 +8,13 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static jpchs.spring_app.dto.paging.Filter.Operator.*;
 
@@ -40,7 +42,7 @@ public class LHSDefinitionHelper {
                                 String.class,
                                 Function.identity(),
                                 Set.of(EQ, NE, CONTAINS),
-                                "Name"
+                                "Имя"
                         )
                 ),
                 Map.entry(
@@ -50,7 +52,7 @@ public class LHSDefinitionHelper {
                                 Date.class,
                                 this::parseDate,
                                 Set.of(EQ, NE, GT, GTE, LT, LTE),
-                                "Creation date"
+                                "Дата создания"
                         )
                 ),
                 Map.entry(
@@ -60,7 +62,7 @@ public class LHSDefinitionHelper {
                                 Integer.class,
                                 Integer::valueOf,
                                 Set.of(EQ, NE, GT, GTE, LT, LTE),
-                                "Student count"
+                                "Количество студентов"
                         )
                 ),
                 Map.entry(
@@ -70,7 +72,7 @@ public class LHSDefinitionHelper {
                                 Integer.class,
                                 Integer::valueOf,
                                 Set.of(EQ, NE, GT, GTE, LT, LTE),
-                                "Expelled students"
+                                "Исключенные студенты"
                         )
                 ),
                 Map.entry(
@@ -78,11 +80,12 @@ public class LHSDefinitionHelper {
                         new LHSDefinition(
                                 "formOfEducation",
                                 FormOfEducation.class,
+                                FormOfEducation.getStringSet(),
                                 value -> FormOfEducation.valueOf(
                                         value.toUpperCase()
                                 ),
                                 Set.of(EQ, NE),
-                                "Form of education"
+                                "Форма обучения"
                         )
                 ),
                 Map.entry(
@@ -90,11 +93,12 @@ public class LHSDefinitionHelper {
                         new LHSDefinition(
                                 "semesterEnum",
                                 Semester.class,
+                                Semester.getStringSet(),
                                 value -> Semester.valueOf(
                                         value.toUpperCase()
                                 ),
                                 Set.of(EQ, NE),
-                                "Semester number"
+                                "Номер семестра"
                         )
                 ),
 
@@ -106,7 +110,7 @@ public class LHSDefinitionHelper {
                                 Long.class,
                                 Long::valueOf,
                                 Set.of(EQ, NE, GT, GTE, LT, LTE),
-                                "X coordinate"
+                                "Координата X"
                         )
                 ),
                 Map.entry(
@@ -116,7 +120,7 @@ public class LHSDefinitionHelper {
                                 Integer.class,
                                 Integer::valueOf,
                                 Set.of(EQ, NE, GT, GTE, LT, LTE),
-                                "Y coordinate"
+                                "Координата Y"
                         )
                 ),
 
@@ -128,7 +132,7 @@ public class LHSDefinitionHelper {
                                 String.class,
                                 Function.identity(),
                                 Set.of(EQ, NE, CONTAINS),
-                                "Group admin's name"
+                                "Имя админа"
                         )
                 ),
                 Map.entry(
@@ -138,7 +142,7 @@ public class LHSDefinitionHelper {
                                 Integer.class,
                                 Integer::valueOf,
                                 Set.of(EQ, NE, GT, GTE, LT, LTE),
-                                "Group admin's weight"
+                                "Вес админа"
                         )
                 ),
                 Map.entry(
@@ -148,7 +152,7 @@ public class LHSDefinitionHelper {
                                 String.class,
                                 Function.identity(),
                                 Set.of(EQ, NE, CONTAINS),
-                                "Group admin's passportID"
+                                "Номер паспорта админа"
                         )
                 ),
 
@@ -160,7 +164,7 @@ public class LHSDefinitionHelper {
                                 Long.class,
                                 Long::valueOf,
                                 Set.of(EQ, NE, GT, GTE, LT, LTE),
-                                "X coordinate of location of group admin"
+                                "Координата X админа"
                         )
                 ),
                 Map.entry(
@@ -170,7 +174,7 @@ public class LHSDefinitionHelper {
                                 Long.class,
                                 Long::valueOf,
                                 Set.of(EQ, NE, GT, GTE, LT, LTE),
-                                "Y coordinate of location of group admin"
+                                "Координата Y админа"
                         )
                 ),
 
@@ -181,7 +185,7 @@ public class LHSDefinitionHelper {
                                 String.class,
                                 Function.identity(),
                                 Set.of(EQ, NE, CONTAINS),
-                                "The name of location of group admin"
+                                "Название локации админа"
                         )
                 )
         );
@@ -190,10 +194,18 @@ public class LHSDefinitionHelper {
     public record LHSDefinition(
             String field,
             Class<?> type,
+            Set<String> allowedEnum,
             Function<String, ?> converter,
             Set<Filter.Operator> ops,
             String humanReadable
     ) {
+        LHSDefinition(String field,
+                      Class<?> type,
+                      Function<String, ?> converter,
+                      Set<Filter.Operator> ops,
+                      String humanReadable) {
+            this(field, type, null, converter, ops, humanReadable);
+        }
     }
 
 

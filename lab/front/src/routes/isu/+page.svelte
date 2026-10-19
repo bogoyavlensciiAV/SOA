@@ -1,11 +1,11 @@
 <script lang="ts">
+	import { FORM_OF_EDUCATION_LABELS } from '$lib/labels';
 	import IsuActionCard from '$lib/components/IsuActionCard.svelte';
 	import { moveStudents, changeEducationForm } from '$lib/api/isuClient';
 	import { ApiError } from '$lib/api/httpClient';
 	import { toastError, toastSuccess } from '$lib/toast';
 	import { FORM_OF_EDUCATION_VALUES, type FormOfEducation } from '$lib/types/api';
 
-	// Move students between groups
 	let fromGroup = $state('');
 	let toGroup = $state('');
 	let moveSubmitting = $state(false);
@@ -44,7 +44,6 @@
 		}
 	}
 
-	// Change education form
 	let eduGroupId = $state('');
 	let newForm = $state<FormOfEducation>('FULL_TIME_EDUCATION');
 	let eduSubmitting = $state(false);
@@ -59,7 +58,7 @@
 		eduSubmitting = true;
 		try {
 			const updated = await changeEducationForm(id, newForm);
-			toastSuccess(`Форма обучения группы «${updated.name}» изменена на ${newForm}.`);
+			toastSuccess(`Форма обучения группы «${updated.name}» изменена на ${FORM_OF_EDUCATION_LABELS[newForm]}.`);
 			eduGroupId = '';
 		} catch (err) {
 			toastError(err, 'Не удалось изменить форму обучения.');
@@ -72,13 +71,11 @@
 <div class="space-y-4">
 	<div>
 		<h1 class="text-lg font-semibold text-slate-900">ISU</h1>
-		<p class="text-sm text-slate-500">Дополнительные операции второго веб-сервиса /isu.</p>
 	</div>
 
 	<div class="grid gap-4">
 		<IsuActionCard
 			title="Перемещение студентов между группами"
-			description="POST /isu/group/{'{from-group}'}/move/{'{to-group}'}"
 		>
 			<form onsubmit={submitMove} class="flex flex-wrap items-end gap-3">
 				<div>
@@ -116,7 +113,6 @@
 
 		<IsuActionCard
 			title="Изменение формы обучения"
-			description="POST /isu/group/{'{group-id}'}/change-edu-form/{'{new-form}'}"
 		>
 			<form onsubmit={submitEduForm} class="flex flex-wrap items-end gap-3">
 				<div>
@@ -138,7 +134,7 @@
 						bind:value={newForm}
 					>
 						{#each FORM_OF_EDUCATION_VALUES as v (v)}
-							<option value={v}>{v}</option>
+							<option value={v}>{FORM_OF_EDUCATION_LABELS[v]}</option>
 						{/each}
 					</select>
 				</div>
