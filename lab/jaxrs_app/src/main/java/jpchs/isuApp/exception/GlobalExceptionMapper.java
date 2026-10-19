@@ -1,37 +1,65 @@
 package jpchs.isuApp.exception;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
+import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
+import jpchs.isuApp.dto.ErrorDTO;
+import jpchs.isuApp.dto.ErrorItem;
+import jpchs.isuApp.dto.Errors;
+
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Provider
-public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
+public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
+
+    private static final Logger LOG = Logger.getLogger(GlobalExceptionMapper.class.getName());
 
     @Override
-    public Response toResponse(Exception exception) {
-
-        if (exception instanceof WebApplicationException webException) {
-            Response response = webException.getResponse();
-
-            return Response.status(response.getStatus())
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(response.getEntity())
-                    .build();
+    public Response toResponse(Throwable e) {
+        // Spring-сервис недоступен: соединение, таймаут, TLS
+        if (e instanceof ProcessingException) {
+            LOG.log(Level.WARNING, "Study groups service unavailable", e);
+            return error(Response.Status.SERVICE_UNAVAILABLE,
+                    Errors.SERVICE_UNAVAILABLE,
+                    "Study groups service is unavailable");
         }
 
-        JsonObject body = Json.createObjectBuilder()
-                .add("status", 500)
-                .add("title", "Internal Server Error")
-                .add("detail", "Внутренняя ошибка сервера")
-                .build();
+        // Spring ответил своей ошибкой (404, 422 ...) - пробрасываем статус и тело как есть
+        if (e instanceof WebApplicationException wae) {
+            Response upstream = wae.getResponse();
+            try {
+                if (upstream.hasEntity()) {
+                    String json = upstream.readEntity(String.class);
+                    if (json != null && !json.isBlank()) {
+                        return Response.status(upstream.getStatus())
+                                .type(MediaType.APPLICATION_JSON)
+                                .entity(json)
+                                .build();
+                    }
+                }
+            } catch (Exception ignored) {
+                // упадём на стандартное тело ниже
+            }
+            return error(Response.Status.fromStatusCode(upstream.getStatus()),
+                    Errors.UPSTREAM_ERROR,
+                    "Upstream error");
+        }
 
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+        LOG.log(Level.SEVERE, "Unhandled exception", e);
+        return error(Response.Status.INTERNAL_SERVER_ERROR,
+                Errors.UPSTREAM_ERROR,
+                "Internal server error");
+    }
+
+    private Response error(Response.StatusType status, Errors code, String message) {
+        return Response.status(status)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(body)
+                .entity(new ErrorDTO(List.of(new ErrorItem(code, message))))
                 .build();
     }
 }

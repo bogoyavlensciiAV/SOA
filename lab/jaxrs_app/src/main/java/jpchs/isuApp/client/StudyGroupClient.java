@@ -7,7 +7,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.util.Map;
 
-@RegisterRestClient(configKey = "study-group-api", baseUri = "http://localhost:8080")
+@RegisterRestClient(configKey = "study-group-api", baseUri = "https://localhost:40834")
 @Path("/study-groups")
 public interface StudyGroupClient {
 

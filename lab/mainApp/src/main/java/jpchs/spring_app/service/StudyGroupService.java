@@ -19,6 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+
+import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +62,9 @@ public class StudyGroupService {
         var update = mapper.fromRequest(req);
         update.setId(entity.getId());
         update.setCreationDate(entity.getCreationDate());
-        update.getGroupAdmin().setId(entity.getGroupAdmin().getId());
+        if (nonNull(update.getGroupAdmin())) {
+            update.getGroupAdmin().setId(entity.getGroupAdmin().getId());
+        }
         var entityGroup = studyGroupRepository.save(update);
         return mapper.toDTO(entityGroup);
     }
