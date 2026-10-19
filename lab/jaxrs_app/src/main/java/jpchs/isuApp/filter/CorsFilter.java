@@ -15,7 +15,7 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
     @Override
     public void filter(ContainerRequestContext req) {
         if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
-            req.abortWith(Response.ok().build());   // ответ на preflight, ресурс не нужен
+            req.abortWith(Response.ok().build());
         }
     }
 

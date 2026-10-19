@@ -9,8 +9,6 @@ import jakarta.ws.rs.core.Response;
 import jpchs.isuApp.client.StudyGroupClient;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.util.Map;
-
 @Path("/group")
 public class IsuController {
 
