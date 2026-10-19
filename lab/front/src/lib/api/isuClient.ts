@@ -1,3 +1,4 @@
+import { ISU_BASE_URL } from '$lib/config';
 import { request, encodePathSegment } from './httpClient';
 import type { FormOfEducation, StudyGroup } from '$lib/types/api';
 
@@ -5,8 +6,7 @@ import type { FormOfEducation, StudyGroup } from '$lib/types/api';
 export function moveStudents(fromGroup: number, toGroup: number): Promise<void> {
 	return request<void>(
 		`/isu/group/${encodePathSegment(fromGroup)}/move/${encodePathSegment(toGroup)}`,
-		{ method: 'POST' },
-		true
+		{ method: 'POST', baseUrl: ISU_BASE_URL }
 	);
 }
 
@@ -17,7 +17,6 @@ export function changeEducationForm(
 ): Promise<StudyGroup> {
 	return request<StudyGroup>(
 		`/isu/group/${encodePathSegment(groupId)}/change-edu-form/${encodePathSegment(newForm)}`,
-		{ method: 'POST' },
-		true
+		{ method: 'POST', baseUrl: ISU_BASE_URL }
 	);
 }

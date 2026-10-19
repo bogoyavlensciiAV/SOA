@@ -99,6 +99,8 @@ export interface LhsDefinition {
 	field: string;
 	allowedOperators: LhsOperator[];
 	type: string;
+	allowedEnum: string[] | null;
+	humanReadable: string;
 }
 
 export type SortDirection = 'asc' | 'desc';

@@ -33,24 +33,24 @@ export function getStudyGroups(options: GetStudyGroupsOptions = {}): Promise<Pag
 			page,
 			pageSize
 		}
-	}, false);
+	});
 }
 
 export function getStudyGroupById(id: number): Promise<StudyGroup> {
-	return request<StudyGroup>(`/study-groups/${encodePathSegment(id)}`, { method: 'GET' }, false);
+	return request<StudyGroup>(`/study-groups/${encodePathSegment(id)}`, { method: 'GET' });
 }
 
 export function createStudyGroup(payload: StudyGroupCreate): Promise<StudyGroup> {
-	return request<StudyGroup>('/study-groups', { method: 'POST', body: payload }, false);
+	return request<StudyGroup>('/study-groups', { method: 'POST', body: payload });
 }
 
 export function updateStudyGroup(id: number, payload: StudyGroupUpdate): Promise<StudyGroup> {
 	return request<StudyGroup>(`/study-groups/${encodePathSegment(id)}`, {
 		method: 'PUT',
 		body: payload
-	}, false);
+	});
 }
 
 export function deleteStudyGroup(id: number): Promise<void> {
-	return request<void>(`/study-groups/${encodePathSegment(id)}`, { method: 'DELETE' }, false);
+	return request<void>(`/study-groups/${encodePathSegment(id)}`, { method: 'DELETE' });
 }

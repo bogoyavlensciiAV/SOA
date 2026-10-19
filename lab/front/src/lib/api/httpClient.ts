@@ -1,4 +1,4 @@
-import { API_BASE_URL, ISU_BASE_URL } from '$lib/config';
+import { API_BASE_URL } from '$lib/config';
 import type { ApiErrorBody } from '$lib/types/api';
 
 export class ApiError extends Error {
@@ -16,10 +16,10 @@ export class ApiError extends Error {
 export type QueryValue = string | number | boolean | null | undefined;
 export type QueryParams = Record<string, QueryValue | QueryValue[]>;
 
-function buildUrl(path: string,  isIsu: boolean, params?: QueryParams): string {
+function buildUrl(path: string, baseUrl: string, params?: QueryParams): string {
 	const url = new URL(
 		path.replace(/^\//, ''),
-		isIsu ? ISU_BASE_URL.endsWith('/') ? ISU_BASE_URL : `${ISU_BASE_URL}/` : API_BASE_URL.endsWith('/') ? API_BASE_URL : `${API_BASE_URL}/`
+		baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
 	);
 
 	if (params) {
@@ -65,29 +65,30 @@ async function parseErrorBody(response: Response): Promise<{ message: string; co
 function defaultMessageForStatus(status: number): string {
 	switch (status) {
 		case 400:
-			return 'Некорректный запрос (400).';
+			return 'Некорректный запрос';
 		case 404:
-			return 'Объект не найден (404).';
+			return 'Объект не найден';
 		case 409:
-			return 'Конфликт при выполнении операции (409).';
+			return 'Конфликт при выполнении операции';
 		case 422:
-			return 'Ошибка валидации данных (422).';
+			return 'Ошибка валидации данных';
 		case 500:
-			return 'Внутренняя ошибка сервера (500).';
+			return 'Внутренняя ошибка сервера';
 		default:
 			return `Сервер вернул неожиданный статус (${status}).`;
 	}
 }
 
 export interface RequestOptions {
+	baseUrl?: string;
 	method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 	params?: QueryParams;
 	body?: unknown;
 }
 
-export async function request<T>(path: string, options: RequestOptions = {}, isIsu: boolean): Promise<T> {
-	const { method = 'GET', params, body } = options;
-	const url = buildUrl(path, isIsu, params);
+export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+	const { method = 'GET', params, body, baseUrl = API_BASE_URL } = options;
+	const url = buildUrl(path, baseUrl, params);
 
 	let response: Response;
 	try {

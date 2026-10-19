@@ -15,12 +15,8 @@
 
 <nav class="flex h-full w-full flex-col bg-slate-900 text-slate-200">
 	<div class="flex items-center gap-2 border-b border-slate-800 px-5 py-5">
-		<div class="flex h-8 w-8 items-center justify-center rounded-md bg-sky-500 text-sm font-bold text-white">
-			SG
-		</div>
 		<div class="leading-tight">
-			<p class="text-sm font-semibold text-white">ITMO Students</p>
-			<p class="text-xs text-slate-400">Study groups admin</p>
+			<p class="text-sm font-semibold text-white">SOA Lab</p>
 		</div>
 	</div>
 
@@ -62,8 +58,4 @@
 			</li>
 		{/each}
 	</ul>
-
-	<div class="border-t border-slate-800 px-5 py-4 text-xs text-slate-500">
-		REST API frontend &middot; static build
-	</div>
 </nav>
