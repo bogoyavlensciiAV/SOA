@@ -77,7 +77,7 @@
 							</button>
 							<button
 								type="button"
-								class="rounded-md p-1.5 text-slate-500 hover:bg-slate-100 hover:text-sky-600"
+								class="rounded-md p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#FF00FF]"
 								title="Редактировать"
 								onclick={() => onEdit(group)}
 							>

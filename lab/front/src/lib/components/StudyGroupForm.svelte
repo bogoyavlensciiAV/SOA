@@ -151,7 +151,7 @@
 			<input
 				id="name"
 				type="text"
-				class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.name ? 'border-rose-400' : 'border-slate-300 focus:border-sky-500'}"
+				class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.name ? 'border-rose-400' : 'border-slate-300 focus:border-[#FF00FF]'}"
 				bind:value={form.name}
 			/>
 			{#if errors.name}<p class="mt-1 text-xs text-rose-600">{errors.name}</p>{/if}
@@ -163,7 +163,7 @@
 				<input
 					id="cx"
 					type="number"
-					class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.coordinatesX ? 'border-rose-400' : 'border-slate-300 focus:border-sky-500'}"
+					class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.coordinatesX ? 'border-rose-400' : 'border-slate-300 focus:border-[#FF00FF]'}"
 					bind:value={form.coordinatesX}
 				/>
 				{#if errors.coordinatesX}<p class="mt-1 text-xs text-rose-600">{errors.coordinatesX}</p>{/if}
@@ -173,7 +173,7 @@
 				<input
 					id="cy"
 					type="number"
-					class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.coordinatesY ? 'border-rose-400' : 'border-slate-300 focus:border-sky-500'}"
+					class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.coordinatesY ? 'border-rose-400' : 'border-slate-300 focus:border-[#FF00FF]'}"
 					bind:value={form.coordinatesY}
 				/>
 				{#if errors.coordinatesY}<p class="mt-1 text-xs text-rose-600">{errors.coordinatesY}</p>{/if}
@@ -186,7 +186,7 @@
 				<input
 					id="sc"
 					type="number"
-					class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.studentsCount ? 'border-rose-400' : 'border-slate-300 focus:border-sky-500'}"
+					class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.studentsCount ? 'border-rose-400' : 'border-slate-300 focus:border-[#FF00FF]'}"
 					bind:value={form.studentsCount}
 				/>
 				{#if errors.studentsCount}<p class="mt-1 text-xs text-rose-600">{errors.studentsCount}</p>{/if}
@@ -196,7 +196,7 @@
 				<input
 					id="es"
 					type="number"
-					class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.expelledStudents ? 'border-rose-400' : 'border-slate-300 focus:border-sky-500'}"
+					class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.expelledStudents ? 'border-rose-400' : 'border-slate-300 focus:border-[#FF00FF]'}"
 					bind:value={form.expelledStudents}
 				/>
 				{#if errors.expelledStudents}<p class="mt-1 text-xs text-rose-600">{errors.expelledStudents}</p>{/if}
@@ -208,7 +208,7 @@
 				<label class="mb-1 block text-sm font-medium text-slate-700" for="foe">Форма обучения *</label>
 				<select
 					id="foe"
-					class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+					class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 					bind:value={form.formOfEducation}
 				>
 					{#each FORM_OF_EDUCATION_VALUES as v (v)}
@@ -220,7 +220,7 @@
 				<label class="mb-1 block text-sm font-medium text-slate-700" for="sem">Семестр (необязательно)</label>
 				<select
 					id="sem"
-					class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+					class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 					bind:value={form.semesterEnum}
 				>
 					<option value="">— не задано —</option>
@@ -246,7 +246,7 @@
 						<input
 							id="an"
 							type="text"
-							class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.adminName ? 'border-rose-400' : 'border-slate-300 focus:border-sky-500'}"
+							class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.adminName ? 'border-rose-400' : 'border-slate-300 focus:border-[#FF00FF]'}"
 							bind:value={form.adminName}
 						/>
 						{#if errors.adminName}<p class="mt-1 text-xs text-rose-600">{errors.adminName}</p>{/if}
@@ -257,7 +257,7 @@
 							id="aw"
 							type="number"
 							step="0.1"
-							class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.adminWeight ? 'border-rose-400' : 'border-slate-300 focus:border-sky-500'}"
+							class="w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none {errors.adminWeight ? 'border-rose-400' : 'border-slate-300 focus:border-[#FF00FF]'}"
 							bind:value={form.adminWeight}
 						/>
 						{#if errors.adminWeight}<p class="mt-1 text-xs text-rose-600">{errors.adminWeight}</p>{/if}
@@ -270,7 +270,7 @@
 						id="ap"
 						type="text"
 						placeholder="— не задано —"
-						class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+						class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 						bind:value={form.adminPassportId}
 					/>
 				</div>
@@ -287,7 +287,7 @@
 							<input
 								id="alx"
 								type="number"
-								class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+								class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 								bind:value={form.adminLocationX}
 							/>
 						</div>
@@ -296,7 +296,7 @@
 							<input
 								id="aly"
 								type="number"
-								class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+								class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 								bind:value={form.adminLocationY}
 							/>
 						</div>
@@ -305,7 +305,7 @@
 							<input
 								id="aln"
 								type="text"
-								class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+								class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 								bind:value={form.adminLocationName}
 							/>
 						</div>
@@ -326,7 +326,7 @@
 		</button>
 		<button
 			type="submit"
-			class="rounded-md bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 disabled:opacity-50"
+			class="rounded-md bg-[#FF00FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#FF00FF] disabled:opacity-50"
 			disabled={submitting}
 		>
 			{submitting ? 'Сохранение…' : 'Сохранить'}

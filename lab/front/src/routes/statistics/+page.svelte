@@ -110,13 +110,13 @@
 						id="students-count-input"
 						type="number"
 						min="1"
-						class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+						class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 						bind:value={studentsCountInput}
 					/>
 				</div>
 				<button
 					type="button"
-					class="rounded-md bg-sky-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-sky-700 disabled:opacity-50"
+					class="rounded-md bg-[#FF00FF] px-4 py-1.5 text-sm font-medium text-white hover:bg-[#FF00FF] disabled:opacity-50"
 					disabled={countLoading}
 					onclick={runCountByStudentsCount}
 				>
@@ -141,13 +141,13 @@
 						id="prefix-input"
 						type="text"
 						placeholder="Math"
-						class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+						class="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 						bind:value={prefixInput}
 					/>
 				</div>
 				<button
 					type="button"
-					class="rounded-md bg-sky-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-sky-700 disabled:opacity-50"
+					class="rounded-md bg-[#FF00FF] px-4 py-1.5 text-sm font-medium text-white hover:bg-[#FF00FF] disabled:opacity-50"
 					disabled={prefixLoading}
 					onclick={runFindByPrefix}
 				>
