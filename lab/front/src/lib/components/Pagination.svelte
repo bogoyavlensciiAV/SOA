@@ -25,7 +25,7 @@
 	<div class="flex items-center gap-2 text-sm text-slate-600">
 		<span>Строк на странице</span>
 		<select
-			class="rounded-md border border-slate-300 bg-white px-2 py-1 text-sm focus:border-sky-500 focus:outline-none"
+			class="rounded-md border border-slate-300 bg-white px-2 py-1 text-sm focus:border-[#FF00FF] focus:outline-none"
 			value={pageSize}
 			{disabled}
 			onchange={(e) => onPageSizeChange(Number(e.currentTarget.value))}

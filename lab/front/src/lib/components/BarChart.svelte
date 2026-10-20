@@ -51,7 +51,7 @@
             <div class="relative flex w-full flex-col items-center justify-end gap-2">
                 <span class="text-sm font-semibold text-slate-700">{bar.value}</span>
                 <div
-                    class="w-14 rounded-t-md bg-sky-500 transition-[height] duration-300"
+                    class="w-14 rounded-t-md bg-[#FF00FF] transition-[height] duration-300"
                     style="height: {barHeightPx(bar.value)}px"
                     role="img"
                     aria-label="{bar.label}: {bar.value}"

@@ -13,10 +13,10 @@
 	}
 </script>
 
-<nav class="flex h-full w-full flex-col bg-slate-900 text-slate-200">
-	<div class="flex items-center gap-2 border-b border-slate-800 px-5 py-5">
+<nav class="flex h-full w-full flex-col border-r border-slate-200 bg-white text-slate-700">
+	<div class="flex items-center gap-2 border-b border-slate-200 px-5 py-5">
 		<div class="leading-tight">
-			<p class="text-sm font-semibold text-white">SOA Lab</p>
+			<p class="text-sm font-semibold text-slate-900">SOA Lab</p>
 		</div>
 	</div>
 
@@ -27,8 +27,8 @@
 					href={link.href}
 					class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors
 						{isActive(link.href)
-						? 'bg-sky-500/15 text-sky-300'
-						: 'text-slate-300 hover:bg-slate-800 hover:text-white'}"
+						? 'bg-[#FF00FF]/15 text-[#FF00FF]'
+						: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}"
 				>
 					<span class="flex h-5 w-5 shrink-0 items-center justify-center">
 						{#if link.icon === 'table'}

@@ -164,7 +164,7 @@
 		</div>
 		<button
 			type="button"
-			class="rounded-md bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700"
+			class="rounded-md bg-[#FF00FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#FF00FF]"
 			onclick={openCreate}
 		>
 			+ Новая группа

@@ -85,7 +85,7 @@
 						type="number"
 						min="1"
 						required
-						class="w-40 rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+						class="w-40 rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 						bind:value={fromGroup}
 					/>
 				</div>
@@ -97,13 +97,13 @@
 						type="number"
 						min="1"
 						required
-						class="w-40 rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+						class="w-40 rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 						bind:value={toGroup}
 					/>
 				</div>
 				<button
 					type="submit"
-					class="rounded-md bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 disabled:opacity-50"
+					class="rounded-md bg-[#FF00FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#FF00FF] disabled:opacity-50"
 					disabled={moveSubmitting}
 				>
 					{moveSubmitting ? 'Выполняется…' : 'Переместить'}
@@ -122,7 +122,7 @@
 						type="number"
 						min="1"
 						required
-						class="w-40 rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+						class="w-40 rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 						bind:value={eduGroupId}
 					/>
 				</div>
@@ -130,7 +130,7 @@
 					<label class="mb-1 block text-sm font-medium text-slate-700" for="new-form">Новая форма обучения</label>
 					<select
 						id="new-form"
-						class="w-56 rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none"
+						class="w-56 rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-[#FF00FF] focus:outline-none"
 						bind:value={newForm}
 					>
 						{#each FORM_OF_EDUCATION_VALUES as v (v)}
@@ -140,7 +140,7 @@
 				</div>
 				<button
 					type="submit"
-					class="rounded-md bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 disabled:opacity-50"
+					class="rounded-md bg-[#FF00FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#FF00FF] disabled:opacity-50"
 					disabled={eduSubmitting}
 				>
 					{eduSubmitting ? 'Выполняется…' : 'Изменить'}
