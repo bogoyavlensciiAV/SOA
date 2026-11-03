@@ -1,1 +1,0 @@
-var e=[`DISTANCE_EDUCATION`,`FULL_TIME_EDUCATION`,`EVENING_CLASSES`],t=[`FIRST`,`THIRD`,`SEVENTH`];export{t as n,e as t};

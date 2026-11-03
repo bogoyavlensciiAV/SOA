@@ -9,7 +9,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>ITMO Students — Study Groups Admin</title>
+	<title>Lab</title>
 </svelte:head>
 
 <Toaster position="top-right" richColors closeButton />
@@ -21,7 +21,7 @@
 
 	<div class="flex min-w-0 flex-1 flex-col overflow-hidden">
 		<header class="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 md:hidden">
-			<span class="text-sm font-semibold text-slate-900">ITMO Students</span>
+			<span class="text-sm font-semibold text-slate-900">SOA Lab</span>
 		</header>
 
 		<div class="border-b border-slate-200 bg-white px-4 py-2 md:hidden">
