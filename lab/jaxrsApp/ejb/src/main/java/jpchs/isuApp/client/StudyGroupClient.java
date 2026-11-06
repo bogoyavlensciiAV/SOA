@@ -3,9 +3,7 @@ package jpchs.isuApp.client;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-@RegisterRestClient(configKey = "study-group-api", baseUri = "https://localhost:40834")
 @Path("/study-groups")
 public interface StudyGroupClient {
 

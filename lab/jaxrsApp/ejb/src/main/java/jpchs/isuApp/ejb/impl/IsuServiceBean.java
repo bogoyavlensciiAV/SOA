@@ -1,33 +1,24 @@
-package jpchs.isuApp.controller;
+package jpchs.isuApp.ejb.impl;
 
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jpchs.isuApp.client.StudyGroupClient;
+import jpchs.isuApp.client.StudyGroupClientFactory;
+import jpchs.isuApp.ejb.api.IsuService;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-@Path("/group")
-public class IsuController {
+@Stateless
+public class IsuServiceBean implements IsuService {
 
     @Inject
-    @RestClient
-    StudyGroupClient client;
+    StudyGroupClientFactory clientFactory;
 
-    @POST
-    @Path("/{from-group}/move/{to-group}")
-    public Response moveStudents(
-            @PathParam("from-group") long fromId,
-            @PathParam("to-group") long toId) {
-
-        if (fromId == toId) {
-            return Response.status(Response.Status.CONFLICT)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
-        }
-
+    @Override
+    public void moveStudents(long fromId, long toId) {
+        System.out.println(1);
+        StudyGroupClient client = clientFactory.create();
         JsonObject from = client.getById(fromId);
         JsonObject to = client.getById(toId);
 
@@ -41,27 +32,23 @@ public class IsuController {
         JsonObject patchedFrom = Json.createObjectBuilder(from)
                 .add("students-count", 0L)
                 .build();
+        System.out.println(4);
 
         client.update(toId, patchedTo);
         client.update(fromId, patchedFrom);
-
-        return Response.noContent().build();
     }
 
-    @POST
-    @Path("/{group-id}/change-edu-form/{new-form}")
-    public Response changeEduForm(
-            @PathParam("group-id") long groupId,
-            @PathParam("new-form") String newForm) {
-
+    @Override
+    public void changeEduForm(long groupId, String newForm) {
+        System.out.println(2);
+        StudyGroupClient client = clientFactory.create();
         JsonObject group = client.getById(groupId);
+        System.out.println(3);
 
         JsonObject patchedGroup = Json.createObjectBuilder(group)
                 .add("form-of-education", newForm)
                 .build();
 
-        JsonObject resp = client.update(groupId, patchedGroup);
-
-        return Response.ok(resp).build();
+        client.update(groupId, patchedGroup);
     }
 }

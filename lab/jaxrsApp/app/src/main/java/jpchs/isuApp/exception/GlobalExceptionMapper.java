@@ -1,5 +1,6 @@
 package jpchs.isuApp.exception;
 
+import jakarta.ejb.EJBException;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
@@ -16,6 +17,11 @@ import java.util.List;
 public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable e) {
+        e.printStackTrace();
+        while (e instanceof EJBException && e.getCause() != null) {
+            e = e.getCause();
+        }
+
         if (e instanceof ProcessingException) {
             return error(Errors.SERVICE_UNAVAILABLE,
                     "Study groups service is unavailable");
@@ -23,6 +29,10 @@ public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
 
         if (e instanceof WebApplicationException wae) {
             Response upstream = wae.getResponse();
+            System.out.println("Status: " + upstream.getStatus());
+            System.out.println("Reason: " + upstream.getStatusInfo().getReasonPhrase());
+            System.out.println("Has entity: " + upstream.hasEntity());
+
             try {
                 if (upstream.hasEntity()) {
                     String json = upstream.readEntity(String.class);
@@ -33,13 +43,15 @@ public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
                                 .build();
                     }
                 }
-            } catch (Exception ignored) {}
-            return error(Errors.UPSTREAM_ERROR,
-                    "Upstream error");
+            } catch (Exception ignored) {
+                System.out.println("Status: " + upstream.getStatus());
+                System.out.println("Allow: " + upstream.getHeaderString("Allow"));
+                System.out.println("Location: " + upstream.getHeaderString("Location"));
+            }
+            return error(Errors.UPSTREAM_ERROR, "Upstream error");
         }
 
-        return error(Errors.UPSTREAM_ERROR,
-                "Internal server error");
+        return error(Errors.UPSTREAM_ERROR, "Internal server error");
     }
 
     private Response error(Errors code, String message) {
