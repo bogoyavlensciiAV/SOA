@@ -1,6 +1,5 @@
 package jpchs.ejb;
 
-
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jpchs.StudyGroupBean;

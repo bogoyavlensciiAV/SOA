@@ -5,7 +5,6 @@ import jakarta.inject.Inject;
 import jpchs.dto.StudyGroupDTO;
 import jpchs.dto.StudyGroupRequest;
 import jpchs.entity.StudyGroup;
-import lombok.AllArgsConstructor;
 
 import java.text.SimpleDateFormat;
 

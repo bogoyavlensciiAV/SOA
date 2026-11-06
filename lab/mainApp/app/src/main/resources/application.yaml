@@ -1,3 +1,20 @@
 spring:
   application:
     name: mainApp
+
+  cloud:
+    consul:
+      host: localhost
+      port: 6776
+      discovery:
+        prefer-ip-address: true
+        ip-address: localhost
+        port: 40834
+        scheme: https
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+
+logging:
+  level:
+    org.springframework.cloud.consul: DEBUG
+    org.springframework.cloud.client.serviceregistry: DEBUG

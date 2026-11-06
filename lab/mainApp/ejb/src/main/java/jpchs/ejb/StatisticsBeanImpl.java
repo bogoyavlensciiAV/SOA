@@ -8,7 +8,6 @@ import jpchs.dto.StudyGroupDTO;
 import jpchs.dto.SumResponse;
 import jpchs.mapper.StudyGroupMapper;
 import jpchs.repo.StudyGroupRepository;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 

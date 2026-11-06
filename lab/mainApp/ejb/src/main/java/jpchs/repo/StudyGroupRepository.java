@@ -55,12 +55,9 @@ public class StudyGroupRepository {
     ) {
         var cb = em.getCriteriaBuilder();
 
-        // Основной запрос
         var dataQuery = cb.createQuery(StudyGroup.class);
         var root = dataQuery.from(StudyGroup.class);
 
-        // Загружаем groupAdmin вместе со StudyGroup.
-        // Location является @Embedded и отдельного FETCH не требует.
         root.fetch("groupAdmin", JoinType.LEFT);
 
         var resolver =
@@ -74,8 +71,8 @@ public class StudyGroupRepository {
                 .orderBy(
                         sorts.stream()
                                 .map(s -> s.direction().isAsc()
-                                        ? cb.asc(resolver.resolve(s.field()))
-                                        : cb.desc(resolver.resolve(s.field()))
+                                                ? cb.asc(resolver.resolve(s.field()))
+                                                : cb.desc(resolver.resolve(s.field()))
                                 )
                                 .toList()
                 );
@@ -85,7 +82,6 @@ public class StudyGroupRepository {
                 .setMaxResults(pageSize)
                 .getResultList();
 
-        // Отдельный COUNT-запрос без FETCH JOIN
         var countQuery = cb.createQuery(Long.class);
         var countRoot = countQuery.from(StudyGroup.class);
 

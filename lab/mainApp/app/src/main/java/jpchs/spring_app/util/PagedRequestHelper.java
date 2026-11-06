@@ -10,7 +10,6 @@ import jpchs.enm.Errors;
 import jpchs.spring_app.converter.StringConverter;
 import jpchs.exception.ApplicationException;
 import lombok.RequiredArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

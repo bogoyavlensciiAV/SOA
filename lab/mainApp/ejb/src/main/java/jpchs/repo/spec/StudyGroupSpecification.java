@@ -49,8 +49,6 @@ public class StudyGroupSpecification {
 
                 prefix.append(part);
 
-                // groupAdmin — связь @ManyToOne.
-                // Для неё нужен JOIN.
                 if ("groupAdmin".equals(part) && i == 0) {
 
                     String key = prefix.toString();
@@ -67,9 +65,6 @@ public class StudyGroupSpecification {
                     path = from;
 
                 } else {
-
-                    // Обычные поля и @Embedded объекты
-                    // обрабатываются через get().
                     path = path.get(part);
                 }
             }
